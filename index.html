@@ -1,14 +1,157 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="./vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GEO CNS Tumor Explorer</title>
-    <script type="module" crossorigin src="./assets/index-D7WKnlwm.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-VwvIYADx.css">
+    <title>CNS Tumor GEO Explorer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .header h1 {
+        color: #fff;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .header p {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.1rem;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+        max-width: 960px;
+        width: 100%;
+      }
+
+      .card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem 1.5rem;
+        text-align: center;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+      }
+
+      .card .icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        color: #fff;
+        margin-bottom: 0.25rem;
+      }
+
+      .card:nth-child(1) .icon { background: #4f46e5; }
+      .card:nth-child(2) .icon { background: #0891b2; }
+      .card:nth-child(3) .icon { background: #7c3aed; }
+
+      .card .title-zh {
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: #1e293b;
+      }
+
+      .card .title-en {
+        font-size: 0.95rem;
+        color: #64748b;
+      }
+
+      .view-all {
+        margin-top: 2rem;
+        text-align: center;
+      }
+
+      .view-all a {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1rem;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 0.6rem 1.5rem;
+        border-radius: 8px;
+        transition: background 0.2s, color 0.2s;
+      }
+
+      .view-all a:hover {
+        background: #fff;
+        color: #4f46e5;
+      }
+
+      @media (max-width: 700px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+
+        .header h1 {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="header">
+      <h1>中枢神经系统肿瘤 GEO 数据浏览器</h1>
+      <p>CNS Tumor GEO Dataset Explorer</p>
+    </div>
+
+    <div class="cards">
+      <a class="card" href="explorer.html?type=Glioma">
+        <div class="icon">🧠</div>
+        <div class="title-zh">胶质瘤</div>
+        <div class="title-en">Glioma</div>
+      </a>
+      <a class="card" href="explorer.html?type=Brain%20Metastasis">
+        <div class="icon">🔬</div>
+        <div class="title-zh">脑转移瘤</div>
+        <div class="title-en">Brain Metastasis</div>
+      </a>
+      <a class="card" href="explorer.html?type=Other">
+        <div class="icon">🧬</div>
+        <div class="title-zh">其他中枢神经系统肿瘤</div>
+        <div class="title-en">Other CNS Tumors</div>
+      </a>
+    </div>
+
+    <div class="view-all">
+      <a href="explorer.html">查看全部数据 / View All Data</a>
+    </div>
   </body>
 </html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geo-viz</title>
+    <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var filterType = params.get('type');
+      if (!filterType) return;
+
+      var originalFetch = window.fetch;
+      window.fetch = function() {
+        var args = arguments;
+        return originalFetch.apply(this, args).then(function(response) {
+          if (args[0] && args[0].toString().includes('geo_data.json')) {
+            return response.json().then(function(data) {
+              var filtered;
+              if (filterType === 'Other') {
+                filtered = data.filter(function(item) {
+                  return item.Tumor_Type !== 'Glioma' && item.Tumor_Type !== 'Brain Metastasis';
+                });
+              } else {
+                filtered = data.filter(function(item) {
+                  return item.Tumor_Type === filterType;
+                });
+              }
+              return new Response(JSON.stringify(filtered), {
+                status: 200,
+                headers: {'Content-Type': 'application/json'}
+              });
+            });
+          }
+          return response;
+        });
+      };
+    })();
+    </script>
+    <script type="module" crossorigin src="./assets/index-D7WKnlwm.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-VwvIYADx.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
