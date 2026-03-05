@@ -1,0 +1,74 @@
+name: Daily Data Update                                                                                                                     
+                                                                                                                                              
+  on:                                                                                                                                         
+    schedule:                                                                                                                                 
+      - cron: '0 16 * * *'                                                                                                                    
+    workflow_dispatch:
+
+  permissions:
+    contents: write
+
+  concurrency:
+    group: data-update
+    cancel-in-progress: false
+
+  jobs:
+    update:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+            ref: main
+
+        - name: Get latest code
+          run: |
+            git fetch origin main
+            git reset --hard origin/main
+
+        - name: Set up Python
+          uses: actions/setup-python@v5
+          with:
+            python-version: '3.11'
+            cache: 'pip'
+
+        - name: Install dependencies
+          run: pip install -r requirements.txt
+
+        - name: Run update script
+          env:
+            NCBI_EMAIL: ${{ secrets.NCBI_EMAIL }}
+            NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
+            MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
+          run: python scripts/update_data.py
+
+        - name: Commit and push if changed
+          run: |
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+
+            if git diff --quiet data/geo_data.json; then
+              echo "No changes to commit"
+              exit 0
+            fi
+
+            for i in 1 2 3 4 5; do
+              echo "Attempt $i..."
+              git stash
+              git fetch origin main
+              git reset --hard origin/main
+              git stash pop || true
+              git add data/geo_data.json
+              git commit -m "Auto-update CNS tumor data $(date +%Y-%m-%d)" || true
+              if git push origin main; then
+                echo "Push succeeded!"
+                exit 0
+              fi
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+            done
+
+            echo "All push attempts failed"
+            exit 1
