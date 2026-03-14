@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE291920",
+    "Title": "Multi-omics analysis of brain metastasis elucidates obesity induced prostaglandin crosstalk in tumor microenvironment restrain CD8T cell expansion (RNA-seq)",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Brain Metastasis",
+    "Tumor_Subtype": "Brain Metastasis",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 4,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Peking Union Medical College Hospital",
+    "Contributors": "Xu Zhanao; Wang Yuekun",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Brain metastasis (BrM) is one of the most crucial complications in tumor patients. Obesity contributes to the metabolic remodeling of tumor cells, yet the how obesity impact tumor microenvironment still remains unclear. We utilized RNA-seq on 115 tumor or peritumor samples in 81 patients to investigate obesity's effect on BrM.",
+    "Overall_Design": "***************************************************************",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE291920",
+    "Submission_Date": "2026/03/13"
+  },
+  {
     "Accession": "GSE292623",
     "Title": "A longitudinal single-cell and spatial multiomic atlas of pediatric high-grade glioma",
     "Organism": "Homo sapiens",
