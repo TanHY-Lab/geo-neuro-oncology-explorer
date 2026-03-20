@@ -51,6 +51,39 @@ jobs:
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
         run: python update_data.py --skip-ai
 
+      - name: Validate refreshed dataset
+        run: |
+          python - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          data_file = Path("data/geo_data.json")
+          data = json.loads(data_file.read_text(encoding="utf-8"))
+
+          years = set()
+          data_types = set()
+          for item in data:
+              date_text = str(item.get("Submission_Date", ""))
+              match = re.search(r"(19|20)\d{2}", date_text)
+              if match:
+                  years.add(match.group())
+              data_type = str(item.get("Data_Type", "")).strip()
+              if data_type:
+                  data_types.add(data_type)
+
+          print(f"dataset_count={len(data)}")
+          print(f"years={sorted(years)}")
+          print(f"data_types={sorted(data_types)[:20]}")
+
+          if not data:
+              raise SystemExit("data/geo_data.json is empty")
+          if len(years) <= 1:
+              raise SystemExit(f"Dataset still covers only one year: {sorted(years)}")
+          if data_types == {"bulk RNA-seq"}:
+              raise SystemExit("Dataset still contains only bulk RNA-seq")
+          PY
+
       - name: Commit and push if changed
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
