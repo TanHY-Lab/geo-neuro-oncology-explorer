@@ -1,27 +1,36 @@
 #!/usr/bin/env python3
 """
-GEO CNS Tumor (中枢神经系统肿瘤) 数据增量更新脚本
+GEO CNS Tumor (中枢神经系统肿瘤) 数据更新脚本
+
+默认执行增量更新；当检测到本地数据只有单一年份或只有 bulk RNA-seq 时，
+自动回退到全量历史抓取并重建数据文件，避免首次错误初始化后一直缺失历史数据。
 """
 
-import os
+import argparse
 import json
-import time
+import os
 import re
-import requests
+import time
+from collections import Counter
 from datetime import datetime, timedelta
+from pathlib import Path
+
+import requests
 from Bio import Entrez
 
-NCBI_EMAIL = os.environ.get('NCBI_EMAIL', '')
-NCBI_API_KEY = os.environ.get('NCBI_API_KEY', '')
-MINIMAX_API_KEY = os.environ.get('MINIMAX_API_KEY', '')
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_FILE = PROJECT_ROOT / "data" / "geo_data.json"
+
+NCBI_EMAIL = os.environ.get("NCBI_EMAIL", "")
+NCBI_API_KEY = os.environ.get("NCBI_API_KEY", "")
+MINIMAX_API_KEY = os.environ.get("MINIMAX_API_KEY", "")
+HTTP_SESSION = requests.Session()
 
 SEARCH_CONFIG = {
     "keywords": [
-        # 胶质瘤
         "glioma", "glioblastoma", "GBM", "astrocytoma",
         "oligodendroglioma", "diffuse glioma", "low grade glioma",
         "high grade glioma", "IDH mutant glioma",
-        # 脑转移瘤（通用术语）
         "brain metastasis", "brain metastases",
         "cerebral metastasis", "cerebral metastases",
         "leptomeningeal metastasis", "leptomeningeal metastases",
@@ -29,19 +38,14 @@ SEARCH_CONFIG = {
         "secondary brain tumor", "secondary brain tumour",
         "metastatic brain tumor", "metastatic brain tumour",
         "brain colonization",
-        # 脑转移瘤（按常见原发瘤来源）
         "lung cancer brain metastas", "NSCLC brain metastas",
         "breast cancer brain metastas", "melanoma brain metastas",
         "renal cell carcinoma brain", "colorectal cancer brain",
         "HER2 brain metastas",
-        # 脑膜瘤
         "meningioma",
-        # 垂体瘤
         "pituitary adenoma", "pituitary tumor", "pituitary tumour",
         "pituitary neuroendocrine tumor",
-        # 听神经瘤
         "vestibular schwannoma", "acoustic neuroma",
-        # 其他中枢神经系统肿瘤
         "medulloblastoma", "ependymoma", "craniopharyngioma",
         "CNS lymphoma", "brain tumor", "brain tumour",
         "central nervous system tumor", "central nervous system tumour",
@@ -58,29 +62,19 @@ SEARCH_CONFIG = {
         "Genome binding/occupancy profiling by high throughput sequencing",
         "Non-coding RNA profiling by high throughput sequencing",
         "Genome variation profiling by high throughput sequencing",
-    ]
+    ],
 }
 
-DATA_FILE = "data/geo_data.json"
-
-# CNS-tumor-relevance terms: datasets must mention at least one of these in title/summary
 CNS_TERMS = [
-    # 胶质瘤
     "glioma", "glioblastoma", "gbm", "astrocytoma", "oligodendroglioma",
     "glial tumor", "glial tumour", "gliogenesis",
-    # 脑转移瘤（通用）
     "brain metastas", "cerebral metastas", "intracranial metastas",
     "leptomeningeal metastas", "secondary brain tumor", "secondary brain tumour",
     "metastatic brain", "brain coloniz", "brm ",
-    # 脑转移瘤（原发瘤语境下的脑转移）
     "brain metastatic niche", "metastatic niche brain",
-    # 脑膜瘤
     "meningioma",
-    # 垂体瘤
     "pituitary",
-    # 听神经瘤
     "schwannoma", "acoustic neuroma",
-    # 其他 CNS 肿瘤
     "medulloblastoma", "ependymoma", "craniopharyngioma",
     "cns lymphoma", "cns tumor", "cns tumour",
     "intracranial tumor", "intracranial tumour", "intracranial neoplasm",
@@ -89,88 +83,174 @@ CNS_TERMS = [
     "dipg", "pontine glioma", "choroid plexus", "neurocytoma",
 ]
 
-# Datasets primarily about these topics (without CNS relevance) are excluded
 EXCLUDE_TERMS = ["skin fibrosis", "dermal fibrosis", "cardiac fibrosis"]
 
-# ── 肿瘤类型标准化映射 ──────────────────────────────────────────────
-# 按优先级从高到低排列：先匹配更具体的子类型，再匹配宽泛类别
-# 每条规则: (标准名称, [匹配关键词列表])
+DATA_TYPE_RULES = [
+    ("scRNA-seq", [
+        "single-cell rna", "single cell rna", "single-cell transcriptom",
+        "single cell transcriptom", "scrna-seq", "scrna seq", "scrnaseq",
+        "10x genomics", "10x chromium", "drop-seq", "dropseq",
+        "smart-seq", "smartseq", "cel-seq", "celseq", "indrops", "sci-rna",
+    ]),
+    ("snRNA-seq", [
+        "single-nucleus rna", "single nucleus rna", "single-nuclei rna",
+        "single nuclei rna", "snrna-seq", "snrna seq", "snrnaseq",
+    ]),
+    ("spatial transcriptomics", [
+        "spatial transcriptom", "spatially resolved transcriptom", "spatial rna",
+        "visium", "10x visium", "slide-seq", "slideseq", "merfish",
+        "seqfish", "stereo-seq", "dbit-seq", "hdst",
+    ]),
+    ("scATAC-seq", [
+        "single-cell atac", "single cell atac", "single-nucleus atac",
+        "single nucleus atac", "scatac-seq", "scatac seq", "scatacseq",
+        "snatac-seq", "snatac seq", "snatac",
+    ]),
+    ("single-cell multiome", [
+        "multiome", "multi-ome", "10x multiome", "single-cell multi",
+        "single cell multi", "single-nucleus multiome", "single nucleus multiome",
+        "cite-seq", "citeseq", "tea-seq", "share-seq", "paired-seq",
+    ]),
+    ("CUT&Tag/CUT&RUN", [
+        "cut&tag", "cut and tag", "cuttag", "cut&run", "cut and run", "cutrun",
+        "cleavage under targets",
+    ]),
+    ("ChIP-seq", [
+        "chip-seq", "chip seq", "chipseq",
+        "chromatin immunoprecipitation sequencing",
+    ]),
+    ("ATAC-seq", ["atac-seq", "atac seq", "atacseq"]),
+    ("DNA methylation", [
+        "methylation array", "methylation profiling by array",
+        "methylation profiling by high throughput", "450k", "850k", "epic array",
+        "infinium", "methylation bead", "hm450", "hm27", "bisulfite",
+        "wgbs", "rrbs", "em-seq", "methylc-seq",
+    ]),
+    ("Hi-C", [
+        "hi-c", "hic ", "hi c ", "chromosome conformation",
+        "3c-seq", "4c-seq", "capture-c",
+    ]),
+    ("miRNA/lncRNA", [
+        "mirna", "microrna", "lncrna", "long non-coding", "long noncoding",
+        "circrna", "circular rna", "small rna", "non-coding rna profiling",
+    ]),
+    ("WES/WGS", [
+        "whole exome", "whole genome sequencing", "wes ", "wgs ",
+        "exome sequencing", "genome variation profiling", "targeted sequencing",
+        "panel sequencing",
+    ]),
+    ("Proteomics", [
+        "proteom", "mass spectrometry", "tmt labeling", "itraq", "silac",
+        "phosphoproteom",
+    ]),
+    ("microarray", [
+        "expression profiling by array", "microarray", "affymetrix", "agilent",
+        "illumina beadchip", "gene expression array",
+    ]),
+    ("bulk RNA-seq", [
+        "rna-seq", "rna seq", "rnaseq", "mrna-seq", "mrna seq",
+        "transcriptome sequencing", "expression profiling by high throughput sequencing",
+    ]),
+]
+
+DATA_TYPE_ORDER = [
+    "scRNA-seq",
+    "snRNA-seq",
+    "spatial transcriptomics",
+    "scATAC-seq",
+    "single-cell multiome",
+    "DNA methylation",
+    "ATAC-seq",
+    "ChIP-seq",
+    "CUT&Tag/CUT&RUN",
+    "Hi-C",
+    "miRNA/lncRNA",
+    "WES/WGS",
+    "Proteomics",
+    "microarray",
+    "bulk RNA-seq",
+]
+
+TRANSCRIPTOME_SPECIFIC_TYPES = {
+    "scRNA-seq",
+    "snRNA-seq",
+    "spatial transcriptomics",
+    "single-cell multiome",
+    "miRNA/lncRNA",
+    "microarray",
+}
+
 TUMOR_TYPE_RULES = [
-    # ── 胶质瘤子类型（先匹配具体型再匹配宽泛型）──
-    ("Glioma - GBM",          ["glioblastoma", "gbm "]),
-    ("Glioma - Astrocytoma",  ["astrocytoma"]),
+    ("Glioma - GBM", ["glioblastoma", "gbm "]),
+    ("Glioma - Astrocytoma", ["astrocytoma"]),
     ("Glioma - Oligodendroglioma", ["oligodendroglioma"]),
-    ("Glioma - DIPG",         ["dipg", "diffuse intrinsic pontine glioma"]),
-    ("Glioma",                ["glioma", "glial tumor", "glial tumour"]),
-
-    # ── 脑转移瘤（先按原发瘤分，再归通用类）──
-    ("Brain Metastasis - Lung",       ["lung cancer brain", "nsclc brain", "lung adenocarcinoma brain",
-                                       "small cell lung cancer brain", "sclc brain"]),
-    ("Brain Metastasis - Breast",     ["breast cancer brain", "her2 brain", "triple negative brain"]),
-    ("Brain Metastasis - Melanoma",   ["melanoma brain metastas", "melanoma brain coloniz",
-                                       "melanoma cerebral", "melanoma leptomeningeal"]),
-    ("Brain Metastasis - Renal",      ["renal cell carcinoma brain", "renal brain metastas",
-                                       "kidney cancer brain"]),
+    ("Glioma - DIPG", ["dipg", "diffuse intrinsic pontine glioma"]),
+    ("Glioma", ["glioma", "glial tumor", "glial tumour"]),
+    ("Brain Metastasis - Lung", [
+        "lung cancer brain", "nsclc brain", "lung adenocarcinoma brain",
+        "small cell lung cancer brain", "sclc brain",
+    ]),
+    ("Brain Metastasis - Breast", ["breast cancer brain", "her2 brain", "triple negative brain"]),
+    ("Brain Metastasis - Melanoma", [
+        "melanoma brain metastas", "melanoma brain coloniz",
+        "melanoma cerebral", "melanoma leptomeningeal",
+    ]),
+    ("Brain Metastasis - Renal", [
+        "renal cell carcinoma brain", "renal brain metastas", "kidney cancer brain",
+    ]),
     ("Brain Metastasis - Colorectal", ["colorectal cancer brain", "colon cancer brain"]),
-    ("Brain Metastasis",              ["brain metastas", "cerebral metastas", "intracranial metastas",
-                                       "leptomeningeal metastas", "secondary brain tumor",
-                                       "secondary brain tumour", "metastatic brain", "brain coloniz",
-                                       "brm "]),
-
-    # ── 脑膜瘤 ──
-    ("Meningioma",            ["meningioma"]),
-
-    # ── 垂体瘤 ──
-    ("Pituitary Tumor",       ["pituitary adenoma", "pituitary tumor", "pituitary tumour",
-                               "pituitary neuroendocrine", "pituitary carcinoma",
-                               "pituitary blastoma"]),
-
-    # ── 听神经瘤 ──
-    ("Vestibular Schwannoma", ["vestibular schwannoma", "acoustic neuroma", "acoustic schwannoma"]),
-
-    # ── 其他 CNS 肿瘤 ──
-    ("Medulloblastoma",       ["medulloblastoma"]),
-    ("Ependymoma",            ["ependymoma"]),
-    ("Craniopharyngioma",     ["craniopharyngioma"]),
-    ("CNS Lymphoma",          ["cns lymphoma", "primary central nervous system lymphoma", "pcnsl"]),
-    ("Choroid Plexus Tumor",  ["choroid plexus"]),
-    ("Neurocytoma",           ["neurocytoma"]),
-
-    # ── 兜底 ──
-    ("Other CNS Tumor",       ["brain tumor", "brain tumour", "brain cancer",
-                               "central nervous system tumor", "central nervous system tumour",
-                               "intracranial tumor", "intracranial tumour",
-                               "intracranial neoplasm"]),
+    ("Brain Metastasis", [
+        "brain metastas", "cerebral metastas", "intracranial metastas",
+        "leptomeningeal metastas", "secondary brain tumor", "secondary brain tumour",
+        "metastatic brain", "brain coloniz", "brm ",
+    ]),
+    ("Meningioma", ["meningioma"]),
+    ("Pituitary Tumor", [
+        "pituitary adenoma", "pituitary tumor", "pituitary tumour",
+        "pituitary neuroendocrine", "pituitary carcinoma", "pituitary blastoma",
+    ]),
+    ("Vestibular Schwannoma", [
+        "vestibular schwannoma", "acoustic neuroma", "acoustic schwannoma",
+    ]),
+    ("Medulloblastoma", ["medulloblastoma"]),
+    ("Ependymoma", ["ependymoma"]),
+    ("Craniopharyngioma", ["craniopharyngioma"]),
+    ("CNS Lymphoma", [
+        "cns lymphoma", "primary central nervous system lymphoma", "pcnsl",
+    ]),
+    ("Choroid Plexus Tumor", ["choroid plexus"]),
+    ("Neurocytoma", ["neurocytoma"]),
+    ("Other CNS Tumor", [
+        "brain tumor", "brain tumour", "brain cancer",
+        "central nervous system tumor", "central nervous system tumour",
+        "intracranial tumor", "intracranial tumour", "intracranial neoplasm",
+    ]),
 ]
 
 
-def classify_tumor_type(title, summary):
-    """根据标题和摘要将数据集归类到标准肿瘤类型。
-    返回 (主类型, 子类型) 元组，例如 ("Glioma", "Glioma - GBM")。
-    """
-    combined = (title + " " + summary).lower()
-    for std_name, keywords in TUMOR_TYPE_RULES:
-        if any(kw in combined for kw in keywords):
-            # 主类型取 " - " 之前的部分
-            main_type = std_name.split(" - ")[0] if " - " in std_name else std_name
-            return main_type, std_name
-    return "Other CNS Tumor", "Other CNS Tumor"
+def log(message):
+    print(message, flush=True)
 
 
-def is_cns_relevant(record):
-    """Check if a dataset is relevant to CNS tumors."""
-    title = record.get("title", "").lower()
-    summary = record.get("summary", "").lower()
-    combined = title + " " + summary
-    has_cns = any(term in combined for term in CNS_TERMS)
-    if has_cns:
-        return True
-    # Exclude datasets that are clearly about non-CNS topics
-    has_exclude = any(term in combined for term in EXCLUDE_TERMS)
-    if has_exclude:
-        return False
-    # No CNS terms and no exclude terms — still reject (be strict for relevance)
-    return False
+def parse_args():
+    parser = argparse.ArgumentParser(description="Update GEO CNS tumor dataset cache.")
+    parser.add_argument(
+        "--full",
+        action="store_true",
+        help="Ignore incremental mode and rebuild the dataset from all historical GEO results.",
+    )
+    parser.add_argument(
+        "--recent-days",
+        type=int,
+        default=30,
+        help="Incremental mode lookback window in days. Default: 30.",
+    )
+    parser.add_argument(
+        "--skip-ai",
+        action="store_true",
+        help="Skip AI summary generation even if MINIMAX_API_KEY is set.",
+    )
+    return parser.parse_args()
 
 
 def setup_entrez():
@@ -180,67 +260,207 @@ def setup_entrez():
 
 
 def build_query():
-    keyword_query = " OR ".join([f'"{kw}"' for kw in SEARCH_CONFIG["keywords"]])
-    org_query = " OR ".join([f'"{org}"[Organism]' for org in SEARCH_CONFIG["organisms"]])
-    type_query = " OR ".join([f'"{t}"[DataSet Type]' for t in SEARCH_CONFIG["data_types"]])
+    keyword_query = " OR ".join(f'"{kw}"' for kw in SEARCH_CONFIG["keywords"])
+    org_query = " OR ".join(f'"{org}"[Organism]' for org in SEARCH_CONFIG["organisms"])
+    type_query = " OR ".join(f'"{item}"[DataSet Type]' for item in SEARCH_CONFIG["data_types"])
     return f"({keyword_query}) AND ({org_query}) AND ({type_query})"
 
 
-def search_geo(max_retries=3):
-    """搜索 GEO 数据库（带重试机制）"""
+def extract_year(date_value):
+    match = re.search(r"(19|20)\d{2}", str(date_value or ""))
+    return int(match.group()) if match else None
+
+
+def load_existing_data():
+    if DATA_FILE.exists():
+        return json.loads(DATA_FILE.read_text(encoding="utf-8"))
+    return []
+
+
+def save_data(data):
+    DATA_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def sort_data_records(data):
+    def sort_key(item):
+        date_text = str(item.get("Submission_Date", ""))
+        try:
+            return datetime.strptime(date_text, "%Y/%m/%d")
+        except ValueError:
+            year = extract_year(date_text) or 0
+            return datetime(year=max(year, 1), month=1, day=1)
+
+    return sorted(data, key=sort_key, reverse=True)
+
+
+def summarize_existing_data(data):
+    years = sorted({year for year in (extract_year(row.get("Submission_Date")) for row in data) if year})
+    data_types = sorted({(row.get("Data_Type") or "").strip() for row in data if (row.get("Data_Type") or "").strip()})
+    return years, data_types
+
+
+def should_force_full_refresh(data):
+    if not data:
+        return True, "本地数据为空，需要全量初始化"
+
+    years, data_types = summarize_existing_data(data)
+    if len(years) <= 1:
+        return True, f"本地数据仅覆盖 {years[0] if years else '未知'} 年，判定为历史数据不完整"
+
+    if data_types == ["bulk RNA-seq"]:
+        return True, "本地数据类型全部为 bulk RNA-seq，判定为旧版错误分类结果"
+
+    return False, "保留增量更新"
+
+
+def is_cns_relevant(record):
+    title = record.get("title", "").lower()
+    summary = record.get("summary", "").lower()
+    combined = f"{title} {summary}"
+
+    if any(term in combined for term in CNS_TERMS):
+        return True
+
+    if any(term in combined for term in EXCLUDE_TERMS):
+        return False
+
+    return False
+
+
+def classify_tumor_type(title, summary):
+    combined = f"{title} {summary}".lower()
+    for standard_name, keywords in TUMOR_TYPE_RULES:
+        if any(keyword in combined for keyword in keywords):
+            main_type = standard_name.split(" - ")[0] if " - " in standard_name else standard_name
+            return main_type, standard_name
+    return "Other CNS Tumor", "Other CNS Tumor"
+
+
+def classify_data_type(title, summary, overall_design, geo_data_type=""):
+    combined = " ".join([
+        title or "",
+        summary or "",
+        overall_design or "",
+        geo_data_type or "",
+    ]).lower()
+
+    matched = []
+
+    has_single_cell_rna_context = (
+        ("single-cell" in combined or "single cell" in combined)
+        and any(token in combined for token in ["transcriptom", "gene expression", "rna"])
+    )
+    has_single_nucleus_rna_context = (
+        any(token in combined for token in ["single-nucleus", "single nucleus", "single-nuclei", "single nuclei"])
+        and any(token in combined for token in ["transcriptom", "gene expression", "rna"])
+    )
+
+    if has_single_cell_rna_context:
+        matched.append("scRNA-seq")
+    if has_single_nucleus_rna_context:
+        matched.append("snRNA-seq")
+
+    for label, keywords in DATA_TYPE_RULES:
+        if any(keyword in combined for keyword in keywords):
+            matched.append(label)
+
+    unique_matches = []
+    for label in matched:
+        if label not in unique_matches:
+            unique_matches.append(label)
+
+    if "scATAC-seq" in unique_matches and "ATAC-seq" in unique_matches:
+        unique_matches.remove("ATAC-seq")
+
+    if "single-cell multiome" in unique_matches:
+        if "scRNA-seq" not in unique_matches and ("gene expression" in combined or "rna" in combined):
+            unique_matches.append("scRNA-seq")
+        if "scATAC-seq" not in unique_matches and "atac" in combined:
+            unique_matches.append("scATAC-seq")
+
+    if "bulk RNA-seq" in unique_matches and any(label in unique_matches for label in TRANSCRIPTOME_SPECIFIC_TYPES):
+        unique_matches.remove("bulk RNA-seq")
+
+    ordered_matches = [label for label in DATA_TYPE_ORDER if label in unique_matches]
+    if ordered_matches:
+        return "; ".join(ordered_matches)
+    return "Other"
+
+
+def search_geo(full_refresh=False, recent_days=30, max_retries=3):
     query = build_query()
     end_date = datetime.now().strftime("%Y/%m/%d")
-    start_date = (datetime.now() - timedelta(days=30)).strftime("%Y/%m/%d")
-    print(f"搜索查询: {query[:100]}...")
-    print(f"日期范围: {start_date} - {end_date}")
+    search_params = {
+        "db": "gds",
+        "term": query,
+        "retmax": 10000,
+        "usehistory": "y",
+    }
+
+    if full_refresh:
+        log("执行全量历史抓取：不限制日期范围")
+    else:
+        start_date = (datetime.now() - timedelta(days=recent_days)).strftime("%Y/%m/%d")
+        search_params.update({
+            "mindate": start_date,
+            "maxdate": end_date,
+            "datetype": "pdat",
+        })
+        log(f"执行增量更新，日期范围: {start_date} - {end_date}")
+
+    log(f"搜索查询: {query[:120]}...")
 
     for attempt in range(max_retries):
         try:
-            handle = Entrez.esearch(
-                db="gds", term=query, retmax=500, usehistory="y",
-                mindate=start_date, maxdate=end_date, datetype="pdat"
-            )
+            handle = Entrez.esearch(**search_params)
             results = Entrez.read(handle)
             handle.close()
             return results.get("IdList", [])
-        except Exception as e:
-            print(f"搜索失败 (尝试 {attempt + 1}/{max_retries}): {e}")
+        except Exception as exc:
+            log(f"搜索失败 (尝试 {attempt + 1}/{max_retries}): {exc}")
             if attempt < max_retries - 1:
                 time.sleep(10)
             else:
-                print("所有重试都失败了")
                 return []
 
 
-def fetch_summaries(id_list, max_retries=3):
-    """获取数据集摘要（带重试机制）"""
+def batched(items, size):
+    for start in range(0, len(items), size):
+        yield items[start:start + size]
+
+
+def fetch_summaries(id_list, max_retries=3, batch_size=200):
     if not id_list:
         return []
 
-    for attempt in range(max_retries):
-        try:
-            handle = Entrez.esummary(db="gds", id=",".join(id_list))
-            records = Entrez.read(handle)
-            handle.close()
-            return records
-        except Exception as e:
-            print(f"获取摘要失败 (尝试 {attempt + 1}/{max_retries}): {e}")
-            if attempt < max_retries - 1:
-                time.sleep(10)
-            else:
-                return []
+    all_records = []
+    for batch in batched(id_list, batch_size):
+        for attempt in range(max_retries):
+            try:
+                handle = Entrez.esummary(db="gds", id=",".join(batch))
+                records = Entrez.read(handle)
+                handle.close()
+                all_records.extend(records)
+                log(f"已获取摘要批次: {len(all_records)}/{len(id_list)}")
+                break
+            except Exception as exc:
+                log(f"获取摘要失败 (尝试 {attempt + 1}/{max_retries}): {exc}")
+                if attempt < max_retries - 1:
+                    time.sleep(10)
+                else:
+                    log(f"跳过批次: {batch[:3]}... 共 {len(batch)} 条")
+        time.sleep(0.1)
+    return all_records
 
 
 def clean_pubmed_ids(pubmed_str):
     if not pubmed_str:
         return ""
-    numbers = re.findall(r'IntegerElement\((\d+)', str(pubmed_str))
-    if numbers:
-        return "; ".join(numbers)
-    numbers = re.findall(r'\d+', str(pubmed_str))
-    if numbers:
-        return "; ".join(numbers)
-    return str(pubmed_str)
+
+    numbers = re.findall(r"IntegerElement\((\d+)", str(pubmed_str))
+    if not numbers:
+        numbers = re.findall(r"\d+", str(pubmed_str))
+    return "; ".join(numbers) if numbers else str(pubmed_str)
 
 
 def generate_ai_summary(title, summary, data_type):
@@ -256,33 +476,35 @@ def generate_ai_summary(title, summary, data_type):
 请直接输出中文摘要："""
 
     try:
-        response = requests.post(
-            'https://api.minimaxi.com/v1/chat/completions',
+        response = HTTP_SESSION.post(
+            "https://api.minimaxi.com/v1/chat/completions",
             headers={
-                "Authorization": f'Bearer {MINIMAX_API_KEY}',
-                "Content-Type": "application/json"
+                "Authorization": f"Bearer {MINIMAX_API_KEY}",
+                "Content-Type": "application/json",
             },
             json={
                 "model": "MiniMax-M2.1",
                 "messages": [{"role": "user", "content": prompt}],
                 "max_tokens": 1500,
-                "temperature": 0.7
+                "temperature": 0.7,
             },
-            timeout=60
+            timeout=60,
         )
         if response.status_code == 200:
             content = response.json()["choices"][0]["message"]["content"]
-            return re.sub(r'<think>.*?</think>', '', content, flags=re.DOTALL).strip()
-    except Exception as e:
-        print(f"AI 摘要生成失败: {e}")
+            return re.sub(r"<think>.*?</think>", "", content, flags=re.DOTALL).strip()
+    except Exception as exc:
+        log(f"AI 摘要生成失败: {exc}")
     return ""
 
 
 def fetch_geo_soft(accession):
-    """获取GEO SOFT格式的详细信息（Country, Lab, Institute等）"""
-    url = f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={accession}&targ=self&form=text&view=full"
+    url = (
+        f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={accession}"
+        "&targ=self&form=text&view=full"
+    )
     try:
-        response = requests.get(url, timeout=30)
+        response = HTTP_SESSION.get(url, timeout=15)
         if response.status_code != 200:
             return {}
 
@@ -292,54 +514,63 @@ def fetch_geo_soft(accession):
             "lab": "",
             "institute": "",
             "country": "",
+            "series_type": [],
         }
 
-        for line in response.text.split('\n'):
-            line = line.strip()
-            if line.startswith('!Series_overall_design'):
-                info["overall_design"] = line.split('=', 1)[1].strip()
-            elif line.startswith('!Series_contributor'):
-                contributor = line.split('=', 1)[1].strip()
-                parts = contributor.split(',')
+        for raw_line in response.text.split("\n"):
+            line = raw_line.strip()
+            if line.startswith("!Series_overall_design"):
+                info["overall_design"] = line.split("=", 1)[1].strip()
+            elif line.startswith("!Series_type"):
+                value = line.split("=", 1)[1].strip()
+                if value and value not in info["series_type"]:
+                    info["series_type"].append(value)
+            elif line.startswith("!Series_contributor"):
+                contributor = line.split("=", 1)[1].strip()
+                parts = [part.strip() for part in contributor.split(",") if part.strip()]
                 if len(parts) >= 2:
-                    name = f"{parts[-1]} {parts[0]}".strip()
-                    if name and name not in info["contributors"]:
-                        info["contributors"].append(name)
-            elif line.startswith('!Series_contact_laboratory'):
-                info["lab"] = line.split('=', 1)[1].strip()
-            elif line.startswith('!Series_contact_institute'):
-                info["institute"] = line.split('=', 1)[1].strip()
-            elif line.startswith('!Series_contact_country'):
-                info["country"] = line.split('=', 1)[1].strip()
+                    formatted = f"{parts[-1]} {parts[0]}".strip()
+                    if formatted and formatted not in info["contributors"]:
+                        info["contributors"].append(formatted)
+            elif line.startswith("!Series_contact_laboratory"):
+                info["lab"] = line.split("=", 1)[1].strip()
+            elif line.startswith("!Series_contact_institute"):
+                info["institute"] = line.split("=", 1)[1].strip()
+            elif line.startswith("!Series_contact_country"):
+                info["country"] = line.split("=", 1)[1].strip()
 
         return info
-    except Exception as e:
-        print(f"    获取SOFT信息失败: {e}")
+    except Exception as exc:
+        log(f"    获取 SOFT 信息失败: {exc}")
         return {}
 
 
-def parse_record(record):
+def parse_record(record, existing_entry=None, skip_ai=False):
     accession = record.get("Accession", "")
     if not accession.startswith("GSE"):
         return None
 
-    pubmed_ids = record.get("PubMedIds", [])
-    pubmed_str = clean_pubmed_ids("; ".join(str(p) for p in pubmed_ids) if pubmed_ids else "")
-
     title = record.get("title", "")
     summary = record.get("summary", "")
-    data_type = "bulk RNA-seq"
+    pubmed_ids = record.get("PubMedIds", [])
+    pubmed_str = clean_pubmed_ids("; ".join(str(item) for item in pubmed_ids) if pubmed_ids else "")
 
-    # 标准化肿瘤类型
+    soft_info = fetch_geo_soft(accession)
+
+    geo_data_type = "; ".join(soft_info.get("series_type", []))
+    overall_design = soft_info.get("overall_design", "")
+    data_type = classify_data_type(title, summary, overall_design, geo_data_type)
     tumor_main, tumor_sub = classify_tumor_type(title, summary)
 
-    # 获取详细SOFT信息
-    soft_info = fetch_geo_soft(accession)
-    time.sleep(0.3)
+    existing_ai_summary = ""
+    if existing_entry:
+        existing_ai_summary = existing_entry.get("AI_Summary_CN") or existing_entry.get("AI_Summary") or ""
 
-    ai_summary = generate_ai_summary(title, summary, data_type)
-    if ai_summary:
-        time.sleep(1)
+    ai_summary = existing_ai_summary
+    if not ai_summary and not skip_ai:
+        ai_summary = generate_ai_summary(title, summary, data_type)
+        if ai_summary:
+            time.sleep(1)
 
     return {
         "Accession": accession,
@@ -355,9 +586,9 @@ def parse_record(record):
         "Institute": soft_info.get("institute", ""),
         "Contributors": "; ".join(soft_info.get("contributors", [])),
         "PubMed_IDs": pubmed_str,
-        "Supplementary_Size": "N/A",
+        "Supplementary_Size": existing_entry.get("Supplementary_Size", "N/A") if existing_entry else "N/A",
         "Summary": summary,
-        "Overall_Design": soft_info.get("overall_design", ""),
+        "Overall_Design": overall_design,
         "AI_Summary_CN": ai_summary,
         "AI_Summary": ai_summary,
         "GEO_Link": f"https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc={accession}",
@@ -365,35 +596,39 @@ def parse_record(record):
     }
 
 
-def main():
-    print(f"开始更新 CNS Tumor 数据 - {datetime.now()}")
+def process_full_refresh(summaries, existing_by_accession, skip_ai=False):
+    rebuilt_data = []
+    skipped_irrelevant = 0
 
-    if not NCBI_EMAIL:
-        print("错误: 未设置 NCBI_EMAIL")
-        return
+    total_records = len(summaries)
+    for index, record in enumerate(summaries, start=1):
+        accession = record.get("Accession", "")
+        if index == 1 or index % 25 == 0:
+            log(f"全量重建进度: {index}/{total_records}")
+        if not accession.startswith("GSE"):
+            continue
 
-    setup_entrez()
+        if not is_cns_relevant(record):
+            skipped_irrelevant += 1
+            log(f"  跳过 (非 CNS 肿瘤相关): {accession}")
+            continue
 
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, 'r', encoding='utf-8') as f:
-            existing_data = json.load(f)
-    else:
-        existing_data = []
+        parsed = parse_record(record, existing_entry=existing_by_accession.get(accession), skip_ai=skip_ai)
+        if parsed:
+            rebuilt_data.append(parsed)
+            log(f"  刷新: {accession} -> {parsed['Data_Type']}")
 
-    existing_accessions = {d["Accession"] for d in existing_data}
-    print(f"现有数据集: {len(existing_data)}")
+    if skipped_irrelevant:
+        log(f"跳过 {skipped_irrelevant} 条非 CNS 肿瘤相关数据集")
 
-    id_list = search_geo()
-    print(f"搜索到: {len(id_list)} 条记录")
+    return sort_data_records(rebuilt_data)
 
-    if not id_list:
-        print("没有新数据")
-        return
 
-    summaries = fetch_summaries(id_list)
-
+def process_incremental_update(existing_data, summaries, skip_ai=False):
+    existing_accessions = {row["Accession"] for row in existing_data}
     new_count = 0
     skipped_irrelevant = 0
+
     for record in summaries:
         accession = record.get("Accession", "")
         if accession in existing_accessions or not accession.startswith("GSE"):
@@ -401,25 +636,78 @@ def main():
 
         if not is_cns_relevant(record):
             skipped_irrelevant += 1
-            print(f"  跳过 (非CNS肿瘤相关): {accession}")
+            log(f"  跳过 (非 CNS 肿瘤相关): {accession}")
             continue
 
-        parsed = parse_record(record)
+        parsed = parse_record(record, skip_ai=skip_ai)
         if parsed:
-            existing_data.insert(0, parsed)
+            existing_data.append(parsed)
             existing_accessions.add(accession)
             new_count += 1
-            print(f"  新增: {accession}")
+            log(f"  新增: {accession} -> {parsed['Data_Type']}")
 
     if skipped_irrelevant:
-        print(f"跳过 {skipped_irrelevant} 条非CNS肿瘤相关数据集")
+        log(f"跳过 {skipped_irrelevant} 条非 CNS 肿瘤相关数据集")
 
-    if new_count > 0:
-        with open(DATA_FILE, 'w', encoding='utf-8') as f:
-            json.dump(existing_data, f, ensure_ascii=False, indent=2)
-        print(f"完成! 新增 {new_count} 条，总计 {len(existing_data)} 条")
+    updated = sort_data_records(existing_data)
+    return updated, new_count
+
+
+def print_dataset_summary(data):
+    years = Counter()
+    data_types = Counter()
+    for row in data:
+        year = extract_year(row.get("Submission_Date"))
+        if year:
+            years[year] += 1
+        data_types[row.get("Data_Type", "Other")] += 1
+
+    log(f"总数据集: {len(data)}")
+    log(f"年份覆盖: {dict(sorted(years.items()))}")
+    log(f"数据类型 Top 10: {data_types.most_common(10)}")
+
+
+def main():
+    args = parse_args()
+    log(f"开始更新 CNS Tumor 数据 - {datetime.now()}")
+
+    if not NCBI_EMAIL:
+        log("错误: 未设置 NCBI_EMAIL")
+        return
+
+    setup_entrez()
+
+    existing_data = load_existing_data()
+    existing_by_accession = {row.get("Accession", ""): row for row in existing_data}
+    log(f"现有数据集: {len(existing_data)}")
+
+    auto_full_refresh, refresh_reason = should_force_full_refresh(existing_data)
+    full_refresh = args.full or auto_full_refresh
+    log(f"更新模式: {'全量重建' if full_refresh else '增量更新'} ({refresh_reason if auto_full_refresh and not args.full else '手动指定全量重建' if args.full else '本地数据完整'})")
+
+    id_list = search_geo(full_refresh=full_refresh, recent_days=args.recent_days)
+    log(f"搜索到: {len(id_list)} 条记录")
+    if not id_list:
+        log("没有可处理的数据")
+        return
+
+    summaries = fetch_summaries(id_list)
+    log(f"获取摘要完成: {len(summaries)} 条")
+
+    if full_refresh:
+        updated_data = process_full_refresh(summaries, existing_by_accession, skip_ai=args.skip_ai)
+        save_data(updated_data)
+        log("全量重建完成")
     else:
-        print("没有新数据需要添加")
+        updated_data, new_count = process_incremental_update(existing_data, summaries, skip_ai=args.skip_ai)
+        if new_count > 0:
+            save_data(updated_data)
+            log(f"增量更新完成，新增 {new_count} 条")
+        else:
+            log("没有新数据需要添加")
+            updated_data = sort_data_records(existing_data)
+
+    print_dataset_summary(updated_data)
 
 
 if __name__ == "__main__":
