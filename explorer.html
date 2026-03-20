@@ -9,14 +9,28 @@
     (function() {
       var params = new URLSearchParams(window.location.search);
       var filterType = params.get('type');
-      if (!filterType) return;
-
       var originalFetch = window.fetch;
-      window.fetch = function() {
+      window.fetch = function(resource, init) {
         var args = arguments;
-        return originalFetch.apply(this, args).then(function(response) {
-          if (args[0] && args[0].toString().includes('geo_data.json')) {
+        var requestUrl = resource && resource.toString ? resource.toString() : '';
+
+        if (requestUrl.includes('geo_data.json')) {
+          var separator = requestUrl.indexOf('?') === -1 ? '?' : '&';
+          var cacheBustedUrl = requestUrl + separator + 'ts=' + Date.now();
+          resource = cacheBustedUrl;
+          init = Object.assign({}, init || {}, { cache: 'no-store' });
+        }
+
+        return originalFetch.call(this, resource, init).then(function(response) {
+          if (requestUrl.includes('geo_data.json')) {
             return response.json().then(function(data) {
+              if (!filterType) {
+                return new Response(JSON.stringify(data), {
+                  status: 200,
+                  headers: {'Content-Type': 'application/json'}
+                });
+              }
+
               var filtered;
               if (filterType === 'Other') {
                 filtered = data.filter(function(item) {
@@ -27,6 +41,7 @@
                   return item.Tumor_Type === filterType;
                 });
               }
+
               return new Response(JSON.stringify(filtered), {
                 status: 200,
                 headers: {'Content-Type': 'application/json'}
