@@ -49,7 +49,7 @@ jobs:
           NCBI_EMAIL: ${{ secrets.NCBI_EMAIL }}
           NCBI_API_KEY: ${{ secrets.NCBI_API_KEY }}
           MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
-        run: python update_data.py --skip-ai
+        run: python scripts/update_data.py --skip-ai
 
       - name: Validate refreshed dataset
         run: |
