@@ -18,7 +18,22 @@ from pathlib import Path
 import requests
 from Bio import Entrez
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+def resolve_project_root():
+    script_path = Path(__file__).resolve()
+    candidates = [
+        script_path.parent,
+        script_path.parent.parent,
+        Path.cwd(),
+    ]
+
+    for candidate in candidates:
+        if (candidate / "data").is_dir() and (candidate / "requirements.txt").is_file():
+            return candidate
+
+    return script_path.parent.parent
+
+
+PROJECT_ROOT = resolve_project_root()
 DATA_FILE = PROJECT_ROOT / "data" / "geo_data.json"
 
 NCBI_EMAIL = os.environ.get("NCBI_EMAIL", "")
