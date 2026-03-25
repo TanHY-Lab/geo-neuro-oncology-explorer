@@ -80,7 +80,7 @@ jobs:
               raise SystemExit("data/geo_data.json is empty")
           if len(years) <= 1:
               raise SystemExit(f"Dataset still covers only one year: {sorted(years)}")
-          if data_types == {"bulk RNA-seq"}:
+          if data_types <= {"bulk RNA-seq"}:
               raise SystemExit("Dataset still contains only bulk RNA-seq")
           PY
 

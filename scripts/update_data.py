@@ -116,52 +116,6 @@ DATA_TYPE_RULES = [
         "visium", "10x visium", "slide-seq", "slideseq", "merfish",
         "seqfish", "stereo-seq", "dbit-seq", "hdst",
     ]),
-    ("scATAC-seq", [
-        "single-cell atac", "single cell atac", "single-nucleus atac",
-        "single nucleus atac", "scatac-seq", "scatac seq", "scatacseq",
-        "snatac-seq", "snatac seq", "snatac",
-    ]),
-    ("single-cell multiome", [
-        "multiome", "multi-ome", "10x multiome", "single-cell multi",
-        "single cell multi", "single-nucleus multiome", "single nucleus multiome",
-        "cite-seq", "citeseq", "tea-seq", "share-seq", "paired-seq",
-    ]),
-    ("CUT&Tag/CUT&RUN", [
-        "cut&tag", "cut and tag", "cuttag", "cut&run", "cut and run", "cutrun",
-        "cleavage under targets",
-    ]),
-    ("ChIP-seq", [
-        "chip-seq", "chip seq", "chipseq",
-        "chromatin immunoprecipitation sequencing",
-    ]),
-    ("ATAC-seq", ["atac-seq", "atac seq", "atacseq"]),
-    ("DNA methylation", [
-        "methylation array", "methylation profiling by array",
-        "methylation profiling by high throughput", "450k", "850k", "epic array",
-        "infinium", "methylation bead", "hm450", "hm27", "bisulfite",
-        "wgbs", "rrbs", "em-seq", "methylc-seq",
-    ]),
-    ("Hi-C", [
-        "hi-c", "hic ", "hi c ", "chromosome conformation",
-        "3c-seq", "4c-seq", "capture-c",
-    ]),
-    ("miRNA/lncRNA", [
-        "mirna", "microrna", "lncrna", "long non-coding", "long noncoding",
-        "circrna", "circular rna", "small rna", "non-coding rna profiling",
-    ]),
-    ("WES/WGS", [
-        "whole exome", "whole genome sequencing", "wes ", "wgs ",
-        "exome sequencing", "genome variation profiling", "targeted sequencing",
-        "panel sequencing",
-    ]),
-    ("Proteomics", [
-        "proteom", "mass spectrometry", "tmt labeling", "itraq", "silac",
-        "phosphoproteom",
-    ]),
-    ("microarray", [
-        "expression profiling by array", "microarray", "affymetrix", "agilent",
-        "illumina beadchip", "gene expression array",
-    ]),
     ("bulk RNA-seq", [
         "rna-seq", "rna seq", "rnaseq", "mrna-seq", "mrna seq",
         "transcriptome sequencing", "expression profiling by high throughput sequencing",
@@ -172,27 +126,21 @@ DATA_TYPE_ORDER = [
     "scRNA-seq",
     "snRNA-seq",
     "spatial transcriptomics",
-    "scATAC-seq",
-    "single-cell multiome",
-    "DNA methylation",
-    "ATAC-seq",
-    "ChIP-seq",
-    "CUT&Tag/CUT&RUN",
-    "Hi-C",
-    "miRNA/lncRNA",
-    "WES/WGS",
-    "Proteomics",
-    "microarray",
     "bulk RNA-seq",
 ]
+
+# 只关注这四种数据类型
+TARGET_DATA_TYPES = {
+    "scRNA-seq",
+    "snRNA-seq",
+    "spatial transcriptomics",
+    "bulk RNA-seq",
+}
 
 TRANSCRIPTOME_SPECIFIC_TYPES = {
     "scRNA-seq",
     "snRNA-seq",
     "spatial transcriptomics",
-    "single-cell multiome",
-    "miRNA/lncRNA",
-    "microarray",
 }
 
 TUMOR_TYPE_RULES = [
@@ -322,7 +270,7 @@ def should_force_full_refresh(data):
     if len(years) <= 1:
         return True, f"本地数据仅覆盖 {years[0] if years else '未知'} 年，判定为历史数据不完整"
 
-    if data_types == ["bulk RNA-seq"]:
+    if set(data_types) == {"bulk RNA-seq"}:
         return True, "本地数据类型全部为 bulk RNA-seq，判定为旧版错误分类结果"
 
     return False, "保留增量更新"
@@ -384,22 +332,17 @@ def classify_data_type(title, summary, overall_design, geo_data_type=""):
         if label not in unique_matches:
             unique_matches.append(label)
 
-    if "scATAC-seq" in unique_matches and "ATAC-seq" in unique_matches:
-        unique_matches.remove("ATAC-seq")
+    # 只保留目标数据类型
+    unique_matches = [label for label in unique_matches if label in TARGET_DATA_TYPES]
 
-    if "single-cell multiome" in unique_matches:
-        if "scRNA-seq" not in unique_matches and ("gene expression" in combined or "rna" in combined):
-            unique_matches.append("scRNA-seq")
-        if "scATAC-seq" not in unique_matches and "atac" in combined:
-            unique_matches.append("scATAC-seq")
-
+    # 如果匹配到更具体的转录组类型（sc/sn/spatial），去掉 bulk RNA-seq
     if "bulk RNA-seq" in unique_matches and any(label in unique_matches for label in TRANSCRIPTOME_SPECIFIC_TYPES):
         unique_matches.remove("bulk RNA-seq")
 
     ordered_matches = [label for label in DATA_TYPE_ORDER if label in unique_matches]
     if ordered_matches:
         return "; ".join(ordered_matches)
-    return "Other"
+    return ""
 
 
 def search_geo(full_refresh=False, recent_days=30, max_retries=3):
@@ -575,6 +518,11 @@ def parse_record(record, existing_entry=None, skip_ai=False):
     geo_data_type = "; ".join(soft_info.get("series_type", []))
     overall_design = soft_info.get("overall_design", "")
     data_type = classify_data_type(title, summary, overall_design, geo_data_type)
+
+    # 跳过不属于目标数据类型的记录
+    if not data_type:
+        return None
+
     tumor_main, tumor_sub = classify_tumor_type(title, summary)
 
     existing_ai_summary = ""
