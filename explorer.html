@@ -11,26 +11,20 @@
       var filterType = params.get('type');
       var originalFetch = window.fetch;
       window.fetch = function(resource, init) {
-        var args = arguments;
         var requestUrl = resource && resource.toString ? resource.toString() : '';
-
         if (requestUrl.includes('geo_data.json')) {
           var separator = requestUrl.indexOf('?') === -1 ? '?' : '&';
-          var cacheBustedUrl = requestUrl + separator + 'ts=' + Date.now();
-          resource = cacheBustedUrl;
+          resource = requestUrl + separator + 'ts=' + Date.now();
           init = Object.assign({}, init || {}, { cache: 'no-store' });
         }
-
         return originalFetch.call(this, resource, init).then(function(response) {
           if (requestUrl.includes('geo_data.json')) {
             return response.json().then(function(data) {
               if (!filterType) {
                 return new Response(JSON.stringify(data), {
-                  status: 200,
-                  headers: {'Content-Type': 'application/json'}
+                  status: 200, headers: {'Content-Type': 'application/json'}
                 });
               }
-
               var filtered;
               if (filterType === 'Other') {
                 filtered = data.filter(function(item) {
@@ -41,10 +35,8 @@
                   return item.Tumor_Type === filterType;
                 });
               }
-
               return new Response(JSON.stringify(filtered), {
-                status: 200,
-                headers: {'Content-Type': 'application/json'}
+                status: 200, headers: {'Content-Type': 'application/json'}
               });
             });
           }
@@ -56,125 +48,229 @@
     <script type="module" crossorigin src="./assets/index-D7WKnlwm.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-VwvIYADx.css">
     <style>
-      /* --- Professional dark theme overrides (NASA / CNS journal style) --- */
+      /* ===== CNS Tumor Explorer — Professional Dark Theme ===== */
+
+      /* ---------- Foundation ---------- */
       :root {
-        --el-color-primary: #2E6F8E !important;
-        --el-color-primary-light-3: #3D8EB9 !important;
-        --el-color-primary-light-5: #5BA4CF !important;
-        --el-color-primary-light-7: #7EB8DA !important;
+        --navy-900: #060D19;
+        --navy-800: #0B1D3A;
+        --navy-700: #112240;
+        --navy-600: #1B4965;
+        --teal-500: #2E6F8E;
+        --teal-400: #3D8EB9;
+        --teal-300: #5BA4CF;
+        --teal-200: #7EB8DA;
+        --slate-100: #F0F3F7;
+        --slate-200: #E2E8F0;
+        --slate-700: #334155;
+        --slate-800: #1E293B;
+
+        --el-color-primary: var(--teal-500) !important;
+        --el-color-primary-light-3: var(--teal-400) !important;
+        --el-color-primary-light-5: var(--teal-300) !important;
+        --el-color-primary-light-7: var(--teal-200) !important;
         --el-color-primary-light-9: #B8D8E8 !important;
-        --el-color-primary-dark-2: #1B4965 !important;
+        --el-color-primary-dark-2: var(--navy-600) !important;
+        --el-border-radius-base: 4px !important;
+        --el-border-color: var(--slate-200) !important;
+        --el-fill-color-light: var(--slate-100) !important;
       }
 
       body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
-        background: #F0F2F5 !important;
-        color: #1A1A2E !important;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        background: var(--slate-100) !important;
+        color: var(--slate-800) !important;
+        -webkit-font-smoothing: antialiased;
       }
 
-      /* Header area: deep navy */
+      /* ---------- Page Header ---------- */
       .page-header {
-        background: linear-gradient(135deg, #0B1D3A 0%, #1B4965 100%) !important;
-        border-bottom: 1px solid #2E6F8E !important;
-        box-shadow: none !important;
+        background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 40%, var(--navy-700) 100%) !important;
+        border-bottom: none !important;
+        box-shadow: 0 1px 0 rgba(46,111,142,0.2) !important;
+        padding: 2.5rem 2rem !important;
+        position: relative;
+        overflow: hidden;
       }
+
+      /* subtle grid overlay on header */
+      .page-header::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(46,111,142,0.06) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(46,111,142,0.06) 1px, transparent 1px);
+        background-size: 48px 48px;
+        pointer-events: none;
+      }
+
+      .page-header > * { position: relative; z-index: 1; }
 
       .page-header h1,
       .page-header .text-3xl,
       .page-header [class*="text-3xl"] {
         font-weight: 500 !important;
+        font-size: 1.6rem !important;
         letter-spacing: 0.01em !important;
+        color: #FFFFFF !important;
       }
 
-      .page-header p,
-      .page-header [class*="text-gray"] {
-        color: #7EB8DA !important;
+      .page-header p {
+        color: var(--teal-200) !important;
         font-weight: 300 !important;
+        font-size: 0.85rem !important;
+        letter-spacing: 0.04em !important;
       }
 
-      /* Stats cards */
+      /* ---------- Stats Cards ---------- */
       .stats-card {
         background: #FFFFFF !important;
-        border: 1px solid #E2E8F0 !important;
-        border-radius: 6px !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+        border: 1px solid var(--slate-200) !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 1.2rem 1.4rem !important;
+        transition: border-color 0.2s !important;
       }
 
-      /* Chart containers */
+      .stats-card:hover {
+        border-color: var(--teal-300) !important;
+      }
+
+      .stats-card .text-2xl {
+        font-weight: 600 !important;
+        font-size: 1.5rem !important;
+      }
+
+      .stats-card .text-sm {
+        font-size: 0.7rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        color: var(--slate-700) !important;
+        font-weight: 500 !important;
+      }
+
+      /* ---------- Chart Containers ---------- */
       .chart-container {
         background: #FFFFFF !important;
-        border: 1px solid #E2E8F0 !important;
-        border-radius: 6px !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+        border: 1px solid var(--slate-200) !important;
+        border-radius: 4px !important;
+        box-shadow: none !important;
+        padding: 1.5rem !important;
       }
 
-      /* Element Plus table refinement */
+      .chart-title {
+        font-size: 0.75rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        font-weight: 600 !important;
+        color: var(--slate-700) !important;
+        border-bottom: 1px solid var(--slate-200) !important;
+        padding-bottom: 0.8rem !important;
+        margin-bottom: 1rem !important;
+      }
+
+      /* ---------- Data Table ---------- */
       .el-table {
-        --el-table-border-color: #E2E8F0 !important;
+        --el-table-border-color: var(--slate-200) !important;
         --el-table-header-bg-color: #F8FAFC !important;
-        --el-table-header-text-color: #334155 !important;
-        --el-table-text-color: #1E293B !important;
-        font-size: 13px !important;
+        --el-table-header-text-color: var(--slate-700) !important;
+        --el-table-text-color: var(--slate-800) !important;
+        --el-table-row-hover-bg-color: #F1F7FA !important;
+        font-size: 12.5px !important;
+        border: 1px solid var(--slate-200) !important;
+        border-radius: 4px !important;
       }
 
       .el-table th.el-table__cell {
-        font-weight: 500 !important;
+        font-weight: 600 !important;
         text-transform: uppercase !important;
-        font-size: 11px !important;
-        letter-spacing: 0.05em !important;
+        font-size: 10.5px !important;
+        letter-spacing: 0.06em !important;
+        padding: 10px 12px !important;
       }
 
-      /* Buttons & tags */
+      .el-table td.el-table__cell {
+        padding: 8px 12px !important;
+      }
+
+      /* ---------- Tags ---------- */
       .el-tag {
+        border-radius: 2px !important;
+        font-size: 10.5px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.03em !important;
+        padding: 1px 8px !important;
+        line-height: 1.7 !important;
+      }
+
+      .el-tag--primary { background: #E8F4FA !important; color: var(--navy-600) !important; border-color: #C4DFF0 !important; }
+      .el-tag--success { background: #E8F5ED !important; color: #1A5632 !important; border-color: #C4E6D0 !important; }
+
+      /* ---------- Buttons ---------- */
+      .el-button--primary {
+        background-color: var(--navy-600) !important;
+        border-color: var(--navy-600) !important;
         border-radius: 3px !important;
-        font-size: 11px !important;
         font-weight: 500 !important;
         letter-spacing: 0.02em !important;
       }
 
-      .el-button--primary {
-        background-color: #1B4965 !important;
-        border-color: #1B4965 !important;
-      }
-
       .el-button--primary:hover {
-        background-color: #2E6F8E !important;
-        border-color: #2E6F8E !important;
+        background-color: var(--teal-500) !important;
+        border-color: var(--teal-500) !important;
       }
 
-      /* Input / Select refinement */
+      /* ---------- Inputs / Selects ---------- */
       .el-input__wrapper,
       .el-select .el-input__wrapper {
-        border-radius: 4px !important;
+        border-radius: 3px !important;
         box-shadow: 0 0 0 1px #D1D5DB inset !important;
+        transition: box-shadow 0.15s !important;
       }
 
       .el-input__wrapper:focus-within,
       .el-select .el-input__wrapper:focus-within {
-        box-shadow: 0 0 0 1px #2E6F8E inset !important;
+        box-shadow: 0 0 0 1px var(--teal-500) inset, 0 0 0 3px rgba(46,111,142,0.1) !important;
       }
 
-      /* Pagination */
+      /* ---------- Pagination ---------- */
+      .el-pagination {
+        font-weight: 500 !important;
+      }
+
       .el-pagination .el-pager li.is-active {
-        background-color: #1B4965 !important;
+        background-color: var(--navy-600) !important;
         color: #fff !important;
+        border-radius: 3px !important;
       }
 
-      /* Scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
+      .el-pagination .el-pager li {
+        border-radius: 3px !important;
       }
-      ::-webkit-scrollbar-track {
-        background: #F0F2F5;
+
+      /* ---------- Footer ---------- */
+      footer, [class*="text-center py-6"] {
+        color: #94A3B8 !important;
+        font-size: 0.7rem !important;
+        letter-spacing: 0.04em !important;
+        text-transform: uppercase !important;
       }
-      ::-webkit-scrollbar-thumb {
-        background: #C1C8D0;
-        border-radius: 3px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #9CA3AF;
-      }
+
+      /* ---------- Scrollbar ---------- */
+      ::-webkit-scrollbar { width: 5px; height: 5px; }
+      ::-webkit-scrollbar-track { background: var(--slate-100); }
+      ::-webkit-scrollbar-thumb { background: #B8C4D0; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb:hover { background: #8896A6; }
+
+      /* ---------- Content area padding ---------- */
+      .px-6 { padding-left: 2rem !important; padding-right: 2rem !important; }
+      .pb-8 { padding-bottom: 2rem !important; }
+
+      /* ---------- Grid gap refinement ---------- */
+      .gap-4 { gap: 1rem !important; }
+      .gap-6 { gap: 1.2rem !important; }
+      .mb-6 { margin-bottom: 1.5rem !important; }
     </style>
   </head>
   <body>
