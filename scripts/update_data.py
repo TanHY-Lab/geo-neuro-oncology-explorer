@@ -116,6 +116,17 @@ DATA_TYPE_RULES = [
         "visium", "10x visium", "slide-seq", "slideseq", "merfish",
         "seqfish", "stereo-seq", "dbit-seq", "hdst",
     ]),
+    ("scATAC-seq", [
+        "single-cell atac", "single cell atac", "single-nucleus atac",
+        "single nucleus atac", "scatac-seq", "scatac seq", "scatacseq",
+        "snatac-seq", "snatac seq", "snatac",
+    ]),
+    ("ATAC-seq", ["atac-seq", "atac seq", "atacseq"]),
+    ("WES/WGS", [
+        "whole exome", "whole genome sequencing", "wes ", "wgs ",
+        "exome sequencing", "genome variation profiling", "targeted sequencing",
+        "panel sequencing",
+    ]),
     ("bulk RNA-seq", [
         "rna-seq", "rna seq", "rnaseq", "mrna-seq", "mrna seq",
         "transcriptome sequencing", "expression profiling by high throughput sequencing",
@@ -126,14 +137,19 @@ DATA_TYPE_ORDER = [
     "scRNA-seq",
     "snRNA-seq",
     "spatial transcriptomics",
+    "scATAC-seq",
+    "ATAC-seq",
+    "WES/WGS",
     "bulk RNA-seq",
 ]
 
-# 只关注这四种数据类型
 TARGET_DATA_TYPES = {
     "scRNA-seq",
     "snRNA-seq",
     "spatial transcriptomics",
+    "scATAC-seq",
+    "ATAC-seq",
+    "WES/WGS",
     "bulk RNA-seq",
 }
 
@@ -189,6 +205,15 @@ TUMOR_TYPE_RULES = [
         "intracranial tumor", "intracranial tumour", "intracranial neoplasm",
     ]),
 ]
+
+
+def normalize_organism(org):
+    """Sort multi-organism entries alphabetically with consistent separator."""
+    if not org:
+        return org
+    parts = [p.strip() for p in org.replace(";", "; ").split("; ") if p.strip()]
+    parts = sorted(set(parts))
+    return "; ".join(parts)
 
 
 def log(message):
@@ -334,6 +359,10 @@ def classify_data_type(title, summary, overall_design, geo_data_type=""):
 
     # 只保留目标数据类型
     unique_matches = [label for label in unique_matches if label in TARGET_DATA_TYPES]
+
+    # scATAC-seq 比 ATAC-seq 更具体，去重
+    if "scATAC-seq" in unique_matches and "ATAC-seq" in unique_matches:
+        unique_matches.remove("ATAC-seq")
 
     # 如果匹配到更具体的转录组类型（sc/sn/spatial），去掉 bulk RNA-seq
     if "bulk RNA-seq" in unique_matches and any(label in unique_matches for label in TRANSCRIPTOME_SPECIFIC_TYPES):
@@ -538,7 +567,7 @@ def parse_record(record, existing_entry=None, skip_ai=False):
     return {
         "Accession": accession,
         "Title": title,
-        "Organism": record.get("taxon", ""),
+        "Organism": normalize_organism(record.get("taxon", "")),
         "Tumor_Type": tumor_main,
         "Tumor_Subtype": tumor_sub,
         "Data_Type": data_type,
