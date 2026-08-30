@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE344886",
+    "Title": "RNA-seq analysis of bevacizumab-treated human glioblastoma cell line samples",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 6,
+    "Platform": "24676",
+    "Country": "",
+    "Lab": "",
+    "Institute": "",
+    "Contributors": "",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "This study characterizes transcriptomic changes associated with bevacizumab treatment in a human glioblastoma cell-line model. RNA sequencing was performed on bevacizumab-treated and untreated control cell samples cultured on a chip. Because the original FASTQ files are corrupted/currently unavailable, this GEO submission includes metadata and processed RNA-seq data files only, as advised by the GEO team under NCBI tracking system #25983490.",
+    "Overall_Design": "",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE344886",
+    "Submission_Date": "2026/08/29"
+  },
+  {
     "Accession": "GSE318857",
     "Title": "Whole-Transcriptome RNA-Seq of Kidney Tissue from Patients in the Alport Spectrum",
     "Organism": "Homo sapiens",
