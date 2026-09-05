@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE345865",
+    "Title": "Transcriptomic Signatures Associated with Brain Metastasis Across Breast Cancer Subtypes",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Brain Metastasis",
+    "Tumor_Subtype": "Brain Metastasis",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 42,
+    "Platform": "24676",
+    "Country": "South Korea",
+    "Lab": "NeuroFuture Lab",
+    "Institute": "Chungbuk National University Hospital",
+    "Contributors": "Hasan Mahdi; Islam Jaisan; Lee Youn Joo; Sun Woo Young; Woo Chang Gok; Lee Yong Jae; Ali Muhammad; Abbas Humaira; Park Sungmin; Choi Young Jin; Yang Yaewon; Park Young Seok",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Brain metastasis is a significant complication of breast cancer, and its molecular determinants vary across breast cancer subtypes. This study examined transcriptomic differences associated with brain metastasis using RNA sequencing of breast cancer tissues. The deposited RNA-seq dataset contains 42 analyzed biological samples, comprising 23 samples classified as brain-metastasis positive and 19 as brain-metastasis negative. Differential gene-expression and functional enrichment analyses were used to characterize brain-metastasis-associated transcriptional programs across Luminal A, Luminal B, HER2-enriched, and triple-negative breast cancer subtypes.",
+    "Overall_Design": "Breast cancer tissue samples were classified by brain metastasis status and molecular subtype. RNA-seq data from 42 analyzed biological samples (23 brain-metastasis positive and 19 brain-metastasis negative) were compared overall and in subtype-related analyses. Molecular subtypes were Luminal A, Luminal B, HER2-enriched, and triple-negative breast cancer. Two biological samples, S16-02298 and S18-17790, were each sequenced in two separate runs; all raw runs are deposited, while each biological sample is represented once in the processed expression matrices.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE345865",
+    "Submission_Date": "2026/09/03"
+  },
+  {
     "Accession": "GSE336084",
     "Title": "TIMELESS promotes glioma stemness and malignancy through JAK-STAT3 pathway",
     "Organism": "Mus musculus",
