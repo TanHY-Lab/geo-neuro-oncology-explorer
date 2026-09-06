@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE286944",
+    "Title": "Vimentin and compressive forces shape genome integrity and cell survival",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "scRNA-seq",
+    "Sample_Count": 6,
+    "Platform": "30173",
+    "Country": "France",
+    "Lab": "",
+    "Institute": "Institut Pasteur",
+    "Contributors": "Infante Elvira; Terriac Emmanuel; Gelin Matthieu; Siegfried Hugo; Pereira David; Roca Vanessa; Varet Hugo; Khalilian Sarah; Asnacios Atef; van Bodegraven Emma; Etienne-Manneville Sandrine",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Intratumoral heterogeneity is a key factor contributing to cancer treatment failure. Glioblastoma, the most common and aggressive primary brain tumor, has a particularly poor prognosis, largely due to its pronounced yet poorly understood intratumoral heterogeneity. Single-cell transcriptomic analyses reveal that vimentin expression exhibits significant heterogeneity both within and across glioblastoma tumors. Traditionally associated with enhanced cellular invasion, vimentin is shown here to play a critical role in maintaining nuclear shape and chromatin organization in glioblastoma cells, shielding them from compressive forces. Loss of vimentin results in nuclear deformation, chromatin remodeling and profound changes in gene expression. Remarkably, we demonstrate that external compressive forces, similar to vimentin deficiency, disrupt DNA damage response pathways. This impairment inhibits effective DNA damage sensing and repair, bypassing DNA damage checkpoints and apoptosis. As a result, vimentin loss and cell compression enhances tumor cell survival, potentially driving radioresistance and further amplifying intratumoral heterogeneity.",
+    "Overall_Design": "We compared the transcriptome of U251-MG glioblastoma cells expressing high vimentin levels and a vimentin knockout U251 cell population obtained using a CRISPR/Cas9 approach.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE286944",
+    "Submission_Date": "2026/09/05"
+  },
+  {
     "Accession": "GSE345865",
     "Title": "Transcriptomic Signatures Associated with Brain Metastasis Across Breast Cancer Subtypes",
     "Organism": "Homo sapiens",
