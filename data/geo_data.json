@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE346108",
+    "Title": "CPEB1 Overexpression Rewires Alternative Splicing in T98G Cells: A Resource for Alzheimer's Disease Research",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 6,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Affiliated Hospital of Qinghai University",
+    "Contributors": "He Mingling; Han Qing; Li Siqi; Liu Junli",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Alzheimer's disease is a multifactorial neurodegenerative disorder with incompletely understood molecular mechanisms. Cytoplasmic polyadenylation element-binding protein 1 (CPEB1) is an RNA-binding protein implicated in post-transcriptional regulation and synaptic function, but its regulatory network in human neural cells remains underexplored. In this study, bulk RNA sequencing was performed on T98G human glioblastoma cells transfected with a CPEB1 overexpression construct or the corresponding empty-vector control. Differential gene expression and alternative splicing analyses were performed using DESeq2 and the ABLas pipeline, respectively. Functional enrichment analysis and comparison with Alzheimer's disease-associated gene sets were used to identify candidate CPEB1-regulated genes and splicing events relevant to Alzheimer's disease research.",
+    "Overall_Design": "T98G human glioblastoma cells were transfected with a pcDNA3.1-CPEB1 overexpression construct or the corresponding empty pcDNA3.1+ control vector. Successful CPEB1 overexpression was confirmed at the mRNA and protein levels by RT-qPCR and Western blotting, respectively. Three biological replicates from the CPEB1 overexpression group (OE-CPEB1-1, OE-CPEB1-2 and OE-CPEB1-3) and three biological replicates from the empty-vector control group (OE-NC-1, OE-NC-2 and OE-NC-4) were subjected to 150-nt paired-end bulk RNA sequencing on an Illumina NovaSeq 6000. Differential gene expression and alternative splicing were analyzed using DESeq2 and the ABLas pipeline, respectively.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE346108",
+    "Submission_Date": "2026/09/06"
+  },
+  {
     "Accession": "GSE286944",
     "Title": "Vimentin and compressive forces shape genome integrity and cell survival",
     "Organism": "Homo sapiens",
