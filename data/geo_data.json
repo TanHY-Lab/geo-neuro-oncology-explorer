@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE317323",
+    "Title": "CXCR4+ circulating tumor cells (CTCs) accumulate in subcutaneous, immune suppressive, CXCL12-loaded-hydrogel.",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 18,
+    "Platform": "18573",
+    "Country": "Italy",
+    "Lab": "Microenvironment Molecular Targets",
+    "Institute": "Istituto Nazionale Tumori di Napoli - IRCCS fondazione \"Pascale\"",
+    "Contributors": "Portella Luigi; Righelli Dario; Scala Stefania",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Circulating tumor cells (CTCs) sensing the chemokine CXCL12 and invading hyaluronic acid hydrogel (CXCL12 loaded hydrogel, CLG) might display metastatic attitude. CLG recovered-human lung (H460, A549), and ovarian cancer cells (IGROV-1) overexpressed the CXCL12 receptor, CXCR4, developed larger spheres and activate transcriptional programs of invasion and stemness. Interestingly, CLG-U87 glioblastoma cells highly expressed EpCAM and significantly upregulated the very specific NGFR, NTS, AQP1 and CMKLR1 genes, associated with cell proliferation, migration/invasion and metastasis. In a syngeneic model, subcutaneous CLG significantly attracted GFP-Lewis lung carcinoma (LLC) cells impairing lung colonization within four hours from cell injection and up to twenty-one days. In lung, M1 macrophages rapidly increased post cancer cells injection while M2 prevailed after 10 days (T10). Neutrophils (Ly6Ghigh and Ly6Glow) infiltrated the lungs after ten days from cells injection with late expansion of immature Ly6Glow. According to lung niche, Empty gel (EG) and CLG were early infiltrated by macrophages and later by neutrophils. CLG generated an immunosuppressive environment defined by M1/M2/Ly6Glow able to capture and divert metastatic CTCs from the lung colonization.",
+    "Overall_Design": "RNA-seq profile of WT- and EG/CLG-derived H460, IGROV-1 and U87 human cancer cells.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE317323",
+    "Submission_Date": "2026/09/08"
+  },
+  {
     "Accession": "GSE346108",
     "Title": "CPEB1 Overexpression Rewires Alternative Splicing in T98G Cells: A Resource for Alzheimer's Disease Research",
     "Organism": "Homo sapiens",
