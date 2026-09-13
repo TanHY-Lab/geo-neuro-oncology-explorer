@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE249167",
+    "Title": "Dysregulated purine metabolism in DIPG reveals new treatment strategies with old drugs.",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - DIPG",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 22,
+    "Platform": "24676",
+    "Country": "USA",
+    "Lab": "",
+    "Institute": "Cincinnati Children's Hospital Medical Center",
+    "Contributors": "",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "This SuperSeries is composed of the SubSeries listed below.",
+    "Overall_Design": "Refer to individual Series",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE249167",
+    "Submission_Date": "2026/09/12"
+  },
+  {
     "Accession": "GSE329096",
     "Title": "Anti-cervical cancer activity of SRI-42127 via inducing DNA damage and activating p53, while reducing HuB, HuR, and HPV E6 E7 proteins",
     "Organism": "Homo sapiens",
