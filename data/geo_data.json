@@ -22,6 +22,28 @@
     "Submission_Date": "2026/09/17"
   },
   {
+    "Accession": "GSE315234",
+    "Title": "Exportin-1 is a therapeutic vulnerability in atypical teratoid/rhabdoid tumors",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Other CNS Tumor",
+    "Tumor_Subtype": "Other CNS Tumor",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 24,
+    "Platform": "34284",
+    "Country": "USA",
+    "Lab": "",
+    "Institute": "Children's Hospital Los Angeles",
+    "Contributors": "Tsai Jessica; House Tessa; Larsen Shawna; Alimova Irina; Vibhakar Rajeev",
+    "PubMed_IDs": "42732352",
+    "Supplementary_Size": "N/A",
+    "Summary": "Atypical teratoid/rhabdoid tumor (ATRT) is an aggressive central nervous system tumor mostly affecting young children. Improved and less toxic therapies for children with ATRT are imperative due to toxicities associated with current treatments. Furthermore, existing therapies do not reflect the underlying genetic drivers of ATRT. In this study, we sought to determine whether Chromosomal Maintenance 1, XPO1 is a genetic dependency and therapeutic target in ATRT. We utilized an integrative approach harnessing patient-derived ATRT cell lines, functional genomics, pharmacologic assays, transcriptomics, and in vivo intracranial xenograft models to systematically test the hypothesis that XPO1 is a novel dependency in ATRT. Analysis of RNA-sequencing datasets revealed high XPO1 expression in ATRT cells compared to other pediatric brain tumor cell lines. Both CRISPR/Cas9 genetic knockdown and pharmacologic inhibition of XPO1 using six selective inhibitors of nuclear export (SINEs) in patient-derived ATRT cells led to significant reduction in cell viability and proliferation. Furthermore, we observed increased apoptosis, G0 phase cell cycle arrest, and upregulation of TP53 signaling pathways in cells treated with pharmacologic XPO1 inhibitors. Consistently, our transcriptomic data revealed upregulation of apoptosis and TP53 signaling pathways, and concomitant depletion of cell cycle gene sets. In vivo, selinexor in combination with radiation and cyclophosphamide significant reduction in tumor volume and increased animal survival in intracranial ATRT xenograft models. Together, our data reveals XPO1 as a novel genetic dependency and potent therapeutic target in ATRT.",
+    "Overall_Design": "RNA-sequencing of CHLA-06-ATRT with genetic knockout of XPO1 (sg1, sg2), pharmacologic targeting of XPO1 (Selinexor, KPT-185), and control (sgGFP, DMSO).",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE315234",
+    "Submission_Date": "2026/09/17"
+  },
+  {
     "Accession": "GSE328130",
     "Title": "Targeting the KAT7/H3K14ac/RAC2 Axis Mediates OXPHOS to Promote Stemness Maintenance and Malignancy in Glioblastoma [RNA-Seq]",
     "Organism": "Homo sapiens",
