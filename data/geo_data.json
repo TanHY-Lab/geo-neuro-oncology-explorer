@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE347373",
+    "Title": "Transcriptomic Response of Glioblastoma Cells to Cucurbitacin B Reveals Alterations in Cell Cycle and DNA Replication",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 6,
+    "Platform": "34284",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Shanghai putuo hospital",
+    "Contributors": "Wang Bin; Xue Yonghua",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Glioblastoma (GBM) is an aggressive and highly proliferative primary brain tumor with limited therapeutic options. Cucurbitacin B (CuB), a bioactive tetracyclic triterpenoid, has demonstrated potent antitumor activity, but its effects on the transcriptional landscape of GBM cells remain incompletely characterized. In this study, bulk RNA sequencing was performed in human GBM cell lines LN229 following exposure to CuB or vehicle control. Differential expression analysis identified 1,154 significantly altered genes, including 515 upregulated and 639 downregulated genes. Gene Ontology and KEGG pathway analyses revealed prominent enrichment of cell-cycle regulation, DNA replication, and mitotic progression pathways. Among the differentially expressed genes, GADD45A was markedly upregulated, whereas PCNA, a key component of the DNA replication machinery, was significantly downregulated. These transcriptomic changes were further validated by RT-qPCR and integrated with functional and molecular analyses. The RNA-sequencing dataset provides a transcriptional profile of CuB-treated GBM cells and supports the involvement of GADD45A-associated cellular stress, cell-cycle arrest, and DNA replication-related responses in the antitumor activity of CuB.",
+    "Overall_Design": "Group 1: LN229 glioblastoma cells treated with vehicle control. Group 2: LN229 glioblastoma cells treated with 100 nM Cucurbitacin B (CuB).",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE347373",
+    "Submission_Date": "2026/09/20"
+  },
+  {
     "Accession": "GSE347233",
     "Title": "Integrated genetic screening identifies FEN1 as a selective vulnerability and mediator of temozolomide resistance in glioblastoma stem cells",
     "Organism": "Homo sapiens",
