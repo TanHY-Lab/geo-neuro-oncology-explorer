@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE315147",
+    "Title": "Inhibition of Mesenchymal Phenotypes in Glioblastoma by Combined Targeting of NF-κB and STAT3 Pathways",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 8,
+    "Platform": "9052",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Sichuan Province Orthopedic Hospital",
+    "Contributors": "Ren Xiao; Li Jiabo; Chen Lei; Wang Xuya; Zhang Jinhao; Zhang Yiming; Fan Jikang; Yun Debo; Zhang Chen; Yu Shengping; Yang Xuejun",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Glioblastoma, IDH-wildtype (GBM, WHO grade 4) is the most common and lethal type of brain cancer that is hard to cure. Among the 3 subtypes of GBM, the mesenchymal GBM is characterized by therapeutic resistance and poor outcomes. Here, we found that both STAT3 and NF-κB pathways are abnormally activated in mesenchymal GBM and the patients with higher expression of STAT3 and NF-κB had a poor prognosis in TCGA database. We used the STAT3 inhibitor Stattic to block STAT3 signaling in GBM cells; however, treatment with Stattic alone induced compensatory activation of the NF-κB pathway. Therefore, we hypothesized that combined inhibition of STAT3 and NF-κB pathways may has a better anti-mesenchymal GBM effect than single signaling inhibition. ACT001, a novel NF-κB inhibitor, combined with Stattic has a synergistic anti-GBM effect, effectively inhibiting GBM proliferation, invasion, migration and promoting apoptosis. Mechanistic analyses further showed that combined inhibition of the STAT3 and NF-κB pathways resulted in better suppression of downstream gene PLK4 expression compared to the inhibition of either pathway alone. Overexpression of PLK4 was found to enhance GBM cell proliferation, invasion and migration, while reducing apoptosis. Taken together, these findings suggest that combined targeting of NF-κB and STAT3 signaling pathways, by acting on PLK4, suppresses proliferation, invasion and migration, as well as promotes apoptosis in the mesenchymal subtype of GBM cells, offering a novel therapeutic strategy for mesenchymal GBM.",
+    "Overall_Design": "RNA-seq analysis of U251MG and SNB19 cells in the control, ACT001, Stattic, and combination (Combo) groups after 3 days of treatment.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE315147",
+    "Submission_Date": "2026/09/23"
+  },
+  {
     "Accession": "GSE347373",
     "Title": "Transcriptomic Response of Glioblastoma Cells to Cucurbitacin B Reveals Alterations in Cell Cycle and DNA Replication",
     "Organism": "Homo sapiens",
