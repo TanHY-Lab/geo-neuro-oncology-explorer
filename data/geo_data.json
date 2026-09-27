@@ -44,6 +44,28 @@
     "Submission_Date": "2026/09/25"
   },
   {
+    "Accession": "GSE335248",
+    "Title": "RNA-seq analysis of U251 cells following tRF-3021a knockdown at 8 and 48 hours",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 12,
+    "Platform": "34284;34281",
+    "Country": "USA",
+    "Lab": "Dutta Lab",
+    "Institute": "University Of Virginia",
+    "Contributors": "Esmaeili Fatemeh; Banerjee Kumarjeet; Chatrath Ajay; Sahu Divya; Shibata Yoshiyuki; Saha Shekhar; Kumar Pankaj; Su Zhangli; Dutta Anindya",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "tRNA-derived fragments (tRFs) are relatively recently discovered small RNAs implicated in gene-regulatory processes in diverse biological contexts, but there have been few reports of clear phenotypic roles for these small RNAs in cancer progression. High expression of the 3' tRFs tRF-3009a, tRF-3021a, and tRF-3030a is associated with poor overall survival in low-grade glioma. In glioblastoma cells, these tRFs enhance invasion and migration, while tRF-3021a is uniquely required for cell proliferation, suppression of apoptosis, and maintenance of global protein synthesis. This RNA-seq study profiles transcriptomic changes following tRF-3021a knockdown in U251 cells at early and late time points (8 hours and 48 hours)",
+    "Overall_Design": "RNA-seq profiling of U251 cells transfected with sequence-scrambled negative-control LNA or tRF-3021a LNA. Samples were collected at 8 h and 48 h post-transfection, with three biological replicates per condition at each time point.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE335248",
+    "Submission_Date": "2026/09/25"
+  },
+  {
     "Accession": "GSE342657",
     "Title": "Ceramide Stress Defines a Targetable Metabolic Vulnerability in IDH1-Mutant Oligodendroglioma",
     "Organism": "Homo sapiens",
