@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE348366",
+    "Title": "Super-enhancer-driven MAFK promotes glioblastoma growth by transcriptionally activating immune-related genes and is stabilized by the deubiquitinase USP36",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 2,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Children's Hospital of Soochow University",
+    "Contributors": "Wang Yongqiang",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Glioblastoma (GBM) is the most aggressive primary malignant tumor of the adult central nervous system, with a median survival of less than 15 months despite surgery combined with radiochemotherapy. Super-enhancers (SEs) are large clusters of cis-regulatory elements densely marked by H3K27ac that drive high-level expression of key oncogenes. In this study, we systematically identified SE-regulated genes in GBM by integrating H3K27ac ChIP-seq data from five glioma cell lines and applying the ROSE algorithm. We report for the first time that MAFK, a small Maf family transcription factor, is controlled by an SE in GBM. Three-dimensional genome profiling revealed prominent long-range chromatin interactions between the MAFK-SE and the MAFK locus, and E2 was delineated as the principal active enhancer element. Functionally, MAFK depletion markedly impaired GBM cell proliferation, induced G2/M arrest and apoptosis in vitro, and suppressed subcutaneous xenograft growth in vivo. Integrative RNA-seq and CUT&Tag analyses showed that MAFK directly binds and transcriptionally activates immune-related genes, including IL6, IRF1, STAT1, NFKB1 and JAK2, implicating it in the regulation of GBM cell immune responses. Moreover, co-immunoprecipitation coupled with mass spectrometry identified the deubiquitinase USP36 as a novel MAFK-interacting protein. USP36 selectively removed K48-linked polyubiquitin chains from MAFK, thereby protecting it from proteasomal degradation and sustaining its steady-state level. Collectively, these data uncover a SE–MAFK–USP36 regulatory axis that drives GBM progression and nominate MAFK as a potential therapeutic target.",
+    "Overall_Design": "CUT&Tag using antibody against MAFK or IgG in U251 cells.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE348366",
+    "Submission_Date": "2026/09/28"
+  },
+  {
     "Accession": "GSE345209",
     "Title": "Functional merlin depletion defines a TEAD1-dependent tumor Schwann cell state driving schwannoma progression: ChIP-seq",
     "Organism": "Homo sapiens",
