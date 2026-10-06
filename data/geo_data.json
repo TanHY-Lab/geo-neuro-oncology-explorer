@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE342390",
+    "Title": "Cholesterol esters in lipid droplets play a key role in the energy production of G3/G4 Medulloblastoma cells",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Medulloblastoma",
+    "Tumor_Subtype": "Medulloblastoma",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 9,
+    "Platform": "34284",
+    "Country": "Italy",
+    "Lab": "Biochemistry lab",
+    "Institute": "University of Rome \"Tor Vergata\"",
+    "Contributors": "Cotton Kian; Niklison-Chirou Maria Victoria; Smirnov Artem",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Medulloblastomas are the most common malignant paediatric brain tumours. High-risk subgroups, including MYC-driven Group 3, Group 4 and aggressive sonic hedgehog tumours are refractory to current therapies and are associated with poor survival. The gold standard treatment comprises surgical resection with aggressive chemo and radiotherapy leading to severe developmental side effects, highlighting the requirement for novel approaches. Metabolic reprogramming is a crucial component of cancer progression with upregulated lipid metabolism being essential to support cancers survival in nutrient-deprived conditions. Lipid droplets are dynamic intracellular organelles protecting against lipotoxicity, yet their involvement in high-risk Medulloblastoma subgroups remain poorly understood. Here, we use transcriptomics and lipidomics of a panel Medulloblastoma cells to understand the role of lipid metabolism. Our data shows that high-risk Medulloblastoma cells have increased number of lipid droplets and PLIN2 expression. This increased PLIN2 expression was consistent in human tissue microarray analysis. Mechanistically, this is due to an enhanced de novo lipogenesis, cholesterol biosynthesis and lipid uptake. Exogenous delivery of various lipids unveiled an altered maturation of lipid droplets in high-risk cells. Altogether, high-risk Group 3 and Group 4 Medulloblastoma cells use lipid droplets in response to excessive lipid synthesis, presenting a possible novel therapeutic target and prognostic marker.",
+    "Overall_Design": "We utilised Novogene polyA mRNA sequencing services to identify changes in transcriptomic profiles of D458 cells when treated with either Oleic Acid or Cholesterol.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE342390",
+    "Submission_Date": "2026/10/05"
+  },
+  {
     "Accession": "GSE349283",
     "Title": "Shared molecular regulation of quiescence in neural and glioma stem cells reveals therapeutic vulnerabilities",
     "Organism": "Homo sapiens",
