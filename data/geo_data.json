@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE324876",
+    "Title": "Macrophage ontogeny dictates the spatiotemporal accumulation and function of kidney-resident macrophages in crescentic glomerulonephritis",
+    "Organism": "Mus musculus",
+    "Tumor_Type": "Other CNS Tumor",
+    "Tumor_Subtype": "Other CNS Tumor",
+    "Data_Type": "scRNA-seq",
+    "Sample_Count": 12,
+    "Platform": "24247",
+    "Country": "USA",
+    "Lab": "Bioinfomatics",
+    "Institute": "Icahn School of Medicine at Mount Sinai",
+    "Contributors": "Fu Jia; Sun Zeguo; Yi Zhengzi; Lee Kim",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Crescentic glomerulonephritis (cGN) is characterized by aggressive immune-mediated glomerular injury with prominent macrophage accumulation that correlates with disease severity. While macrophages are established drivers of cGN pathogenesis, the distinct contributions of kidney-resident macrophages (KRMs) versus infiltrating monocyte-derived macrophages remain poorly defined. Using single-cell RNA sequencing and fate-mapping, we investigated the spatiotemporal dynamics and functional roles of ontogenically distinct macrophage subsets in a murine anti-glomerular basement membrane (anti-GBM) cGN model. Our results demonstrate that both embryonic-derived and bone marrow-derived macrophages undergo substantial proliferation in situ during the early disease stage, but with distinct spatial distributions, in that the self-renewing, embryonic-derived KRMs accumulated predominantly in the medulla and corticomedullary junction, while bone marrow-derived macrophages localized primarily to the cortex and glomerular regions. We further probed functional impact of KRMs by clodronate liposome-mediated depletion, which significantly attenuated kidney damage and albuminuria. We further identified CCL12, predominantly expressed by self-renewing KRMs, as a potential chemokine driving CCR2+ monocyte recruitment in the disease progression. Neutralization of CCL12 with an anti-CCL12 blocking antibody reduced macrophage infiltration and ameliorated kidney damage in cGN, confirming the functional importance of this signaling axis. These findings underscore a critical interplay between ontogenically distinct and spatially segregated macrophage subsets in cGN pathogenesis and suggest CCL12-CCR2 axis as a potential therapeutic target for modulating macrophage-mediated kidney damage in cGN.",
+    "Overall_Design": "Single-cell RNA-seq was performed to define immune and kidney cell programs during accelerated nephrotoxic serum nephritis (NTSN). C57BL/6J mice received PBS (control) or NTS, and kidneys were harvested at day 5 and/or day 10 post-injection. Two complementary scRNA-seq datasets were generated: (1) FACS-enriched CD45+ kidney immune cells from control and day 5 NTSN mice, and (2) total kidney single-cell suspensions from control, day 5 NTSN, and day 10 NTSN mice. All samples were processed using the 10x Genomics Chromium platform to enable cell-type-resolved clustering and differential expression analyses across disease stages and between immune-enriched versus whole-kidney compartments.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE324876",
+    "Submission_Date": "2026/10/09"
+  },
+  {
     "Accession": "GSE349606",
     "Title": "Clinical-scale manufacturing of CD137+ enriched tumor-reactive T cells for glioblastoma in the CliniMACS Prodigy System",
     "Organism": "Homo sapiens",
