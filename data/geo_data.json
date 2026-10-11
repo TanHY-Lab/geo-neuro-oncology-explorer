@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE345072",
+    "Title": "Multi-omics and spatial analysis of microgravity-grown glioblastoma organoids reveals superior modeling of advanced disease after long-term spaceflight",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 12,
+    "Platform": "34281",
+    "Country": "USA",
+    "Lab": "Datta Lab",
+    "Institute": "University of Notre Dame",
+    "Contributors": "Burchett Darantiere Alice; Zarodniuk Maksym; Giza Shelby; Rexroat Jason; Kuehl Paul; Clements Twyman; Balraj Keerthiveena; Marco Haley; DâSouza Alura; Najera Julian; Bhargava Rohit; Datta Meenal",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Creating accurate organoid models remains a challenge, particularly for diseases like glioblastoma (GBM), an aggressive, treatment-resistant brain cancer with an immunosuppressive microenvironment. To overcome limitations of Earth-based models (sedimentation and disaggregation) and leverage the unique advantages of space (accelerated disease progression and immune dysregulation), this study utilizes a panel of GBM-myeloid organoids cultured for 40 days aboard the International Space Station. Spaceflight-grown GBM organoids have more uniform morphology compared to ground controls. We observed a context-dependent response to spaceflight, with the inclusion of macrophages and monocytes altering the bulk and spatial transcriptional response. While GBM-alone organoids have transcriptional markers of less aggressive disease in microgravity, organoids containing GBM cells + monocytes have increased expression of genes associated with disease progression and poor patient outcomes. Gene expression patterns are more spatially organized, with mesenchymal-related genes enriched in the core and inflammation-related genes enriched at the periphery, mimicking GBM tumor architecture. Microgravity-grown GBM+monocyte organoids exhibit increased secretion of proteins such as CXCL12 and LOX-1, associated with more aggressive disease. Infrared chemical imaging confirms spatial chemical gradients of DNA, protein, and lipid species in both space- and terrestrially-grown organoids. In summary, this work presents not only a novel, advanced model of glioblastoma for basic and translational research but also demonstrates methods to acquire diverse data from organoids compatible with the unique constraints of in-space systems, helping establish a working model for orbital oncology.",
+    "Overall_Design": "Bulk RNA sequencing of human glioblastoma organoids that were sent to the International Space Station and corresponding ground controls.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE345072",
+    "Submission_Date": "2026/10/10"
+  },
+  {
     "Accession": "GSE324876",
     "Title": "Macrophage ontogeny dictates the spatiotemporal accumulation and function of kidney-resident macrophages in crescentic glomerulonephritis",
     "Organism": "Mus musculus",
