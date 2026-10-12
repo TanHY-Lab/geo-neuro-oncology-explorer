@@ -22,6 +22,28 @@
     "Submission_Date": "2026/10/10"
   },
   {
+    "Accession": "GSE350284",
+    "Title": "Combined talimogene laherparepvec and binimetinib in NRAS-mutated melanoma induces anti-tumor immunity",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Brain Metastasis",
+    "Tumor_Subtype": "Brain Metastasis",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 3,
+    "Platform": "34284",
+    "Country": "USA",
+    "Lab": "",
+    "Institute": "Washington University School of Medicine",
+    "Contributors": "Yao Tony; Chen Rita; Yamada Melissa; Moore J; Jimenez Marissa; Huang Tammy; Cornelius Lynn; Ansstas George; Saligrama Naresha; Chen David",
+    "PubMed_IDs": "42809340",
+    "Supplementary_Size": "N/A",
+    "Summary": "In a single-center observational series of intralesional talimogene laherparepvec (T-VEC) plus oral binimetinib, complete responses were seen in 6 of 7 patients with checkpoint-refractory, NRAS-mutated metastatic melanoma, including patients with rapidly progressive disease, distant noninjected disease, and brain metastases. This degree of response is not expected with either agent alone. Compared to all other patients with known NRAS-mutated melanoma treated with T-VEC alone or non-binimetinib combinations at our institution, 2 of 7 achieved complete response, suggesting T-VEC and binimetinib combination responses are not simply a feature of NRAS-mutated melanoma. We used single-cell multiomic profiling to assess for molecular changes in immune cells between pre-treatment and on-treatment injected tumors.",
+    "Overall_Design": "***************************************************************",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE350284",
+    "Submission_Date": "2026/10/10"
+  },
+  {
     "Accession": "GSE324876",
     "Title": "Macrophage ontogeny dictates the spatiotemporal accumulation and function of kidney-resident macrophages in crescentic glomerulonephritis",
     "Organism": "Mus musculus",
