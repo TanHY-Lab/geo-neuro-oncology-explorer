@@ -22,6 +22,28 @@
     "Submission_Date": "2026/10/13"
   },
   {
+    "Accession": "GSE327131",
+    "Title": "Chromosome 6q mediated loss of LATS1 tumour suppression as a targetable mechanism of ultra-high-risk posterior fossa A ependymoma [RNA-seq]",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Ependymoma",
+    "Tumor_Subtype": "Ependymoma",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 52,
+    "Platform": "24676",
+    "Country": "USA",
+    "Lab": "RC1 North, P18-4401M",
+    "Institute": "CU Anschutz Medical Campus",
+    "Contributors": "Donson Andrew",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Posterior fossa A (PFA) ependymoma is the most common and lethal paediatric ependymoma subgroup, with relapse remaining almost uniformly fatal. Our study reveals that loss of chromosome 6q is among the most common copy number variants observed in PFA deaths and explores the biological mechanisms underlying this loss. We identify LATS1 loss as a defining feature of 6q-deleted PFA ependymoma, leading to Hippo pathway dysregulation and activation of YAP/TEAD signalling. These findings uncover a previously unrecognised molecular driver of PFA tumour aggressiveness and establish a mechanistic rationale for targeting Hippo pathway components in this disease.",
+    "Overall_Design": "We performed RNAseq on a variety of pediatric brain tumor diagnoses",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE327131",
+    "Submission_Date": "2026/10/13"
+  },
+  {
     "Accession": "GSE307659",
     "Title": "Gene expression analysis following GBM therapy INO-5104",
     "Organism": "Homo sapiens",
