@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE308978",
+    "Title": "Novel Models of Group 4 Medulloblastoma for Accelerated Preclinical Discovery",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Medulloblastoma",
+    "Tumor_Subtype": "Medulloblastoma",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 4,
+    "Platform": "30173",
+    "Country": "Canada",
+    "Lab": "",
+    "Institute": "McMaster University",
+    "Contributors": "Custers Stefan; Escudero Laura; Suk Yujin; Sill Martin; Gwynne William D.; Bakhshinyan David; Patel Hardik; McKenna Dillon; Apel Erika; Singh Manoj; Mobilio Daniel; Lu Jian-Qiang; Provias John; Yarascavitch Blake; Ajani Olufemi; Kutscher Lena M.; Venugopal Chitra; Singh Sheila Kumari",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Background Medulloblastoma (MB) is the most common malignant pediatric brain tumor. MB is subdivided into four main subgroups: SHH, WNT, Group 3 (G3-MB) and Group 4 (G4-MB). Despite advancements in treatment regimens, 30% of MB patients succumb to tumor metastasis and treatment relapse. G4-MB represents a large subset of patients with poor prognosis. G4-MB tumor biology remains poorly understood and molecularly ambiguous. Pre-clinical development is obstructed by suboptimal existing models. here, we report the development of novel G4-MB models with the capacity for in vitro propagation and preclinical drug screening. Methods Two G4-MB tumor lines (MBT375 and MBT417) were derived from patient tumors and characterized by NanoString, RNA-seq and DNA methylation profiling. Subsequently, these models were serially engrafted in mice or cultured in vitro. G4MB models were assessed for stem cell marker BMI1 expression levels and subsequent dose-response and synergy assays were performed in comparison to normal neural stem cells with BMI1 targeted drugs. G4MB cells were transduced with firefly luciferase for optimized in vivo modelling. Results We present two novel G4-MB patient-derived orthotopic mouse models: MBT375 and MBT417, with the capacity for short-term in vitro propagation, genetic manipulation, and improved tumorigenicity. Importantly, MBT375-engrafted mice reliably develop spinal metastatic disease. By in vitro drug screening we demonstrate that repurposing G3-MB specific BMI1-targeted therapeutic strategies is a rational approach for the most common and often difficult-to-treat MB subtype. Conclusions We developed novel G4-MB models serving as in vitro discovery platforms to identify novel cancer-selective treatment modalities.",
+    "Overall_Design": "Total RNA was extracted using the RNeasy Plus Mini Kit (Qiagen, # 74134). Libraries were prepared as specified by Illumina manufacturer and sequenced using NextSeq 2000.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE308978",
+    "Submission_Date": "2026/10/16"
+  },
+  {
     "Accession": "GSE350392",
     "Title": "Engineering the tumor-brain interface: scalable cancer core assembloids for translational neuro-oncology",
     "Organism": "Mus musculus",
