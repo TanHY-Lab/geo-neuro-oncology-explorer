@@ -44,6 +44,28 @@
     "Submission_Date": "2026/10/19"
   },
   {
+    "Accession": "GSE344878",
+    "Title": "Preclinical Evaluation of Ixazomib for High-Risk Pediatric Brain Tumors",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 18,
+    "Platform": "24676",
+    "Country": "USA",
+    "Lab": "Dahl Lab",
+    "Institute": "University of Colorado Anschutz Medical Campus",
+    "Contributors": "Dahl Nathan",
+    "PubMed_IDs": "42779611",
+    "Supplementary_Size": "N/A",
+    "Summary": "Many of the highest-risk pediatric brain cancers continue to experience poor clinical outcomes despite intensification of current multimodal therapies. Proteasome inhibition has shown preclinical promise across a range of cancer models, including diffuse midline glioma (DMG), medulloblastoma, and atypical teratoid/rhabdoid tumors (ATRT), although clinically viable agents have been limited. Recent studies in adults with glioblastoma suggest that ixazomib, a second-generation proteasome inhibitor, may achieve therapeutic concentrations in the central nervous system (CNS), raising the possibility that a CNS-penetrant proteasome inhibitor could similarly provide therapeutic benefit in childhood brain cancers. Here, ixazomib was evaluated in cell lines and orthotopic xenograft models of DMG, MYC-amplified medulloblastoma (MYC-MB), and ATRT. RNA sequencing and LC-MS-based proteomics were used to define the functional consequences of ixazomib treatment, while proteasome activity measurements were used to assess ixazomib activity across the blood-brain barrier. Ixazomib demonstrated consistent cytotoxic effects across high-risk pediatric brain tumor models at low nanomolar concentrations and induced proteostatic stress responses and apoptosis. However, ixazomib treatment did not confer a survival benefit in orthotopic models, and pharmacodynamic testing indicated insufficient inhibition of proteasome activity within the CNS compared with extracranial tissues. These findings demonstrate that although multiple pediatric brain tumor models are susceptible to proteasome inhibition, ixazomib may lack sufficient blood-brain barrier penetration to serve as a translationally viable strategy for exploiting this therapeutic vulnerability.",
+    "Overall_Design": "Bulk RNA-seq was performed on three pediatric brain tumor cell models: BT12 (ATRT), D425 (MYC-medulloblastoma), and HSJD-DIPG-007 (DMG). For each model, untreated control and ixazomib-treated conditions were analyzed with three biological replicates per condition (18 libraries total). Ixazomib treatment was 250 nM for 4 hours before RNA sequencing.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE344878",
+    "Submission_Date": "2026/10/19"
+  },
+  {
     "Accession": "GSE308978",
     "Title": "Novel Models of Group 4 Medulloblastoma for Accelerated Preclinical Discovery",
     "Organism": "Homo sapiens",
