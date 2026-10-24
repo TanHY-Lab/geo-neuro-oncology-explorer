@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE320279",
+    "Title": "Single-Nucleus Analysis of NF1 Low-Grade Glioma Tumoroids Reveals a Metabolic Shift and Myeloid Evolution In Vitro",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma",
+    "Data_Type": "scRNA-seq; snRNA-seq",
+    "Sample_Count": 4,
+    "Platform": "24676",
+    "Country": "USA",
+    "Lab": "",
+    "Institute": "CHOP",
+    "Contributors": "",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "About 10-15% of individuals with Neurofibromatosis Type 1 develop a low-grade glioma (LGG) within the optic pathway, and an additional 3-5% of individuals develop LGG outside of the optic pathway. In recent years molecular analysis has greatly enhanced our understanding of what drives these NF1 LGG; however, to date in vitro models are rare and in vivo models are scarce. Here, we present the first in vitro tumor-derived spheroid cultures (tumoroids) of 3 NF1-associated LGGs grown for up to 4 weeks. These tumoroids can be passaged and banked. To determine how accurately the NF1 LGG tumoroid cultures reflect human disease, and how much and how quickly they drift from the primary tumors, we performed single nuclear RNAseq (snRNAseq) analysis on primary tumor and 1, 2 and 4 weeks in culture for one of these NF1 LGG tumoroid lines. Observations were confirmed with immunofluorescence staining on all 3 NF1 LGG tumoroid lines. As expected, the few CD3+ T-cells present in the primary tumor are lost by day 14 (IF) and not detected on scRNAseq; macrophages/microglia remain present for at least 14 days but are largely depleted by week 4. Additionally, we observe a shift from more homeostatic microglia in the primary tumor to CD163 positive tumor-associated macrophages/microglia (TAM) in vitro. Neoplastic clusters uniquely associated with the primary tumor had clear upregulation of genes associated with neuronal communication. Our analysis also shows that primary NF1 LGGs rely on the metabolism of fatty acids (FA) for energy, while in vitro, glycolysis is the primary energy source. Additionally, instead of metabolizing FA, both neoplastic and immune cells switch to FA synthesis in vitro. Finally, we observe a slightly increased proliferative index in vitro versus in vivo, both in neoplastic and immune cells. Given the paucity of in vitro models, NF1-derived tumoroids, open opportunities for screening drug sensitivity and other studies.",
+    "Overall_Design": "snRNAseq from both primary NF1 LGG and tumoroid cultures for 7, 14 and 28 days",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE320279",
+    "Submission_Date": "2026/10/23"
+  },
+  {
     "Accession": "GSE343695",
     "Title": "RNA vaccination drives expansion and brain-licensing of T cell receptor T cells in experimental glioblastoma",
     "Organism": "Mus musculus",
