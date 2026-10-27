@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE316186",
+    "Title": "Non-neoplastic PSMA expression precludes/limits effective PSMA-targeted theranostics in glioma",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma",
+    "Data_Type": "scRNA-seq",
+    "Sample_Count": 6,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Xijing Hospita, Air Force Medical University",
+    "Contributors": "Yang Risheng",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "The theranostic application of prostate-specific membrane antigen (PSMA) has revolutionized the management of prostate cancer; however, its application in gliomas faces a key challenge, where intense PET signals do not correspond to therapeutic efficacy.",
+    "Overall_Design": "This study aims to elucidate the molecular phenotypes and cellular origins of prostate-specific membrane antigen (PSMA)-positive cells in glioma and benign glial hyperplasia. We performed preoperative PSMA PET/MRI on six patients (five with gliomas of varying PET  signals and one with glial hyperplasia).  By integrating preoperative imaging signatures with single-cell transcriptomic data, we successfully identified the major cell types expressing PSMA (encoded by FOLH1 gene). Our analysis revealed that PSMA signal is primarily enriched in vascular endothelial cells and oligodendrocytes within the tumor microenvironment, rather than in tumor cells themselves. This dataset serves as a key molecular resource for understanding the biological basis of PSMA PET imaging in gliomas and for evaluating the potential limitations of PSMA-targeted theranostics.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE316186",
+    "Submission_Date": "2026/10/25"
+  },
+  {
     "Accession": "GSE291686",
     "Title": "Tissue rigidity mechano-priming microglia cytoskeleton-nucleus interplays with biochemical signals to amplify neuroinflammatory responses [ATAC-Seq]",
     "Organism": "Mus musculus",
