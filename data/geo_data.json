@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE293159",
+    "Title": "Transcriptomic Profiling of Primary Tumor, Brain Metastasis, and Normal Brain Tissues of Lung Adenocarcinoma (LUAD)",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Brain Metastasis",
+    "Tumor_Subtype": "Brain Metastasis",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 12,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Zhongshan School of Medicine, Sun Yat-sen University",
+    "Contributors": "Qiaorui Bai; Xia Yang; Yi Yang",
+    "PubMed_IDs": "42899254",
+    "Supplementary_Size": "N/A",
+    "Summary": "The objective of this sequencing was to investigate the differential molecular characteristics among primary LUAD, brain metastases (BrM), and normal brains. We aim to identify unique signatures and pathways involved in the metastatic progression of LUAD to the brain, potentially uncovering novel targets for therapeutic intervention.",
+    "Overall_Design": "Comparative gene expression profiling analysis of RNA-seq data for LUAD primary tumors, brain metastases (BrM), and normal brains.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE293159",
+    "Submission_Date": "2026/10/28"
+  },
+  {
     "Accession": "GSE348401",
     "Title": "Microglial lipid signaling drives glioblastoma invasion and represents a therapeutic vulnerability",
     "Organism": "Mus musculus",
