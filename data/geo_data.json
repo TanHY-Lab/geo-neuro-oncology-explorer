@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE351918",
+    "Title": "RNA-seq of human meningioma samples",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Meningioma",
+    "Tumor_Subtype": "Meningioma",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 59,
+    "Platform": "24676",
+    "Country": "Poland",
+    "Lab": "",
+    "Institute": "Maria Sklodowska-Curie National Research Institute of Oncology",
+    "Contributors": "Kober Paulina; Baluszek Szymon; Bujko Mateusz",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Meningiomas are frequently diagnosed tumors of intracranial location. In the WHO classification, tumor aggressiveness is assessed by assigning increasing grades, with WHO grade I tumors considered benign and WHO grade III tumors the most aggressive. In our study, we aimed to identify biological features associated with meningioma aggressiveness by profiling gene expression in FFPE tumor samples of different WHO grades (I, II, and III).",
+    "Overall_Design": "***************************************************************",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE351918",
+    "Submission_Date": "2026/10/29"
+  },
+  {
     "Accession": "GSE293159",
     "Title": "Transcriptomic Profiling of Primary Tumor, Brain Metastasis, and Normal Brain Tissues of Lung Adenocarcinoma (LUAD)",
     "Organism": "Homo sapiens",
