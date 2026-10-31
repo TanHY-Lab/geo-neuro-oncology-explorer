@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE326531",
+    "Title": "CRYAB-driven mitochondrial fission induces senescence to promote adaptive resistance to EGFR-TKI in LUAD brain metastasis",
+    "Organism": "Mus musculus",
+    "Tumor_Type": "Brain Metastasis",
+    "Tumor_Subtype": "Brain Metastasis - Lung",
+    "Data_Type": "scRNA-seq",
+    "Sample_Count": 4,
+    "Platform": "24247",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "Nanjing medical university",
+    "Contributors": "Chen Lixiang; Qian Yuxian; Wang Hui",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Epidermal growth factor receptor tyrosine kinase inhibitors (EGFR-TKIs) exhibit limited efficacy against lung cancer brain metastases, often resulting in rapid and inevitable resistance. However, the unique mechanisms driving this brain microenvironment-specific therapeutic failure remain elusive. Here, utilizing in vivo orthotopic models and single-cell RNA sequencing, we reveal that targeted therapy induces a distinct, metabolically hyperactive senescent cell subpopulation that drives rapid EGFR-TKI tolerance in brain metastasis. We identify the molecular chaperone CRYAB as an indispensable driver specifically upregulated within this senescent persister state. Mechanistically, CRYAB physically interacts with VDAC2 at the outer mitochondrial membrane, promoting endoplasmic reticulum (ER)-mitochondria tethering and calcium influx. This CRYAB-VDAC2 axis orchestrates adaptive mitochondrial fission, hyperactivating oxidative metabolism while simultaneously shielding（preventing？） senescent cells from fatal oxidative stress. Genetic or pharmacological blockade of mitochondrial fission completely abolishes CRYAB-mediated therapeutic resistance. Therapeutically, we demonstrate that a 25-hydroxycholesterol (25HC) dietary intervention acts as a potent in vivo senolytic strategy, directly dismantling the CRYAB-dependent resistance network, eradicating senescent persister cells, and synergistically prolonging overall survival when combined with Osi. Furthermore, high baseline CRYAB expression in pre-treatment primary lung biopsies clinically predicts lower intracranial objective response rates and shorter progression-free survival in a cohort of advanced EGFR-mutant NSCLC patients. Collectively, our study uncovers a novel CRYAB-VDAC2-mitochondrial fission axis that enforces therapy-induced senescence and highlights 25HC dietary intervention as a highly translatable combinatorial strategy to overcome EGFR-TKI resistance in brain metastasis.",
+    "Overall_Design": "We established brain metastasis models by intracardiac injection of H1975-BrM lung adenocarcinoma cells with high brain metastatic potential into BALB/c nude mice. Following 4-week osimertinib treatment, brain tissues were harvested from both control and treatment groups for single-cell RNA sequencing.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE326531",
+    "Submission_Date": "2026/10/30"
+  },
+  {
     "Accession": "GSE351918",
     "Title": "RNA-seq of human meningioma samples",
     "Organism": "Homo sapiens",
