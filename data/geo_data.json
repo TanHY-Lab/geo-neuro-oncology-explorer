@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE305509",
+    "Title": "The Role and Therapeutic Targeting of Diazepam Binding Inhibitor in Epilepsy and Glioma",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "scRNA-seq; spatial transcriptomics",
+    "Sample_Count": 15,
+    "Platform": "24676",
+    "Country": "USA",
+    "Lab": "",
+    "Institute": "Northwestern",
+    "Contributors": "Shashwat Tripathi",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "Epilepsy significantly impacts quality of life and can be fatal. Despite new anti-seizure medications, one-third of patients, particularly those with glioma-related epilepsy, have refractory epilepsy (DRE) and are unresponsive to treatment. The incidence of glioma-related epilepsy ranges between 40-90% depending on the grade. Seizures may result from glioma-mediated mass effect or through secreted products like 2-hydroxyglutarate in IDH-mutant gliomas. Immune profiling using Nanostring, scRNA-seq, and high-dimensional immunofluorescence multiplexing of matched perifocal and focal (n = 15) tissue from DRE patients revealed an enrichment of a unique microglia polarization state that elaborates diazepam binding inhibitor (DBI; log2 FC = 1.45). Ex vivo culture of human tissue confirmed higher DBI secretion from epileptogenic foci relative to perifocal tissue (85.72 ng/ml vs 55.67 ng/ml; P < 0.0001). Single-cell spatial transcriptomics using the Visium HD platform on minimal residual disease samples from glioblastoma patients (n = 4), combined with scRNA-seq (n = 110), revealed robust DBI expression correlating with glioblastoma progression and tumor connectivity scores. As such, we devised a first-in-class therapeutic, Ntx-DBI, using a lipid-conjugate platform to deliver a siRNA targeting moiety. In epilepsy models, intrathecal administration of Ntx-DBI decreased mortality following pilocarpine injection (Ntx-Non Targeting Control (NTC): 30% (n = 10) vs Ntx-DBI: 0% (n = 10); P = 0.03) and in the chronic stage of epilepsy, markedly reduced spontaneous arizing seizures (Ntx-DBI: 0.87; n=8 vs Ntx-NTC: 7.33; n=6; p=0.0003) and anxiety in open field testing. In pre-clinical high-grade glioma models, Ntx-DBI increased median survival in mice with orthotopic LN229 (Ntx-DBI: 64 days vs Ntx-NTC: 47 days; P=0.0005) and CT-2A (Ntx-DBI: undefined vs Ntx-NTC: 33 days; p=0.011). The underlying mechanism of Ntx-DBI therapeutic activity, elucidated through Seahorse assay, lipid profiling, and ferroptosis inhibition, is the reduction of fatty acid oxidation that induces glioma cell death through catastrophic lipid peroxidation. In total, we show that DBI plays a dual role in epileptogenesis and gliomagenesis, which, when targeted, blocks chronic seizure activity and significantly increases survival across multiple high-grade glioma models.",
+    "Overall_Design": "Human epilepsy immune cell sequencing from 15 samples including matched adjacent cortex",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE305509",
+    "Submission_Date": "2026/11/08"
+  },
+  {
     "Accession": "GSE336178",
     "Title": "Spatial ATAC sequencing of glioblastoma identifies spatially-segregated cellular niches which underlie glioblastoma cell state transitions",
     "Organism": "Homo sapiens",
