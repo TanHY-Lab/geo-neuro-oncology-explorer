@@ -1,5 +1,27 @@
 [
   {
+    "Accession": "GSE354910",
+    "Title": "N6-methyladenosine modified circRNAs provide novel opportunity for cancer therapeutics by suppressing translation",
+    "Organism": "Homo sapiens",
+    "Tumor_Type": "Glioma",
+    "Tumor_Subtype": "Glioma - GBM",
+    "Data_Type": "bulk RNA-seq",
+    "Sample_Count": 8,
+    "Platform": "24676",
+    "Country": "China",
+    "Lab": "",
+    "Institute": "University of Science and Technology of China",
+    "Contributors": "Liu Dun; Wang Xiaolin",
+    "PubMed_IDs": "",
+    "Supplementary_Size": "N/A",
+    "Summary": "N6-methyladenosine (m6A) modification of RNAs including mRNAs and circular RNAs (circRNAs) has been recognized as a key regulatory component. However, the physiological functions and mechanisms of m6A modification in circRNAs remain elusive. Here, we found that circRNAs featured with high m6A modification were preferentially enriched on the 40S ribosomal subunit. The m6A-circRNAs repress global mRNA translation by sequestering the m6A reader PRRC2A on the 40S ribosome, thereby preventing the binding of the 40S ribosome to mRNAs for translation initiation. Following analysis has revealed that these mRNAs are primarily enriched on DNA damage and cell division pathways. Physically, levels of these m6A-circRNAs were significantly reduced in pan-cancer which typically exhibits enhanced translational activities. In a PDX model of glioblastoma, one of the most malignant tumors, m6A-circRNAs delivery significantly inhibited tumor proliferation by increasing DNA damage and further causing cell death. Our findings uncover a ribosome-associated circRNA program that links m6A modification to global translational control, and provide a new strategy for cancer therapeutics.",
+    "Overall_Design": "In an effort to investigate 40S-enriched circRNAs across multiple cell lines, we performed RNA sequencing (RNA-seq) of whole cell lysate (Input) or 40S fractions from AGS, HCT116 and HepG2 cells. We also conducted PRRC2A RIP-seq in HeLa cells to detect mRNA and circRNA bound to PRRC2A in HeLa cells.",
+    "AI_Summary_CN": "",
+    "AI_Summary": "",
+    "GEO_Link": "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE354910",
+    "Submission_Date": "2026/11/22"
+  },
+  {
     "Accession": "GSE330956",
     "Title": "Hypoxia-induced experiment of RAW264.7 cells and mixed tumor formation with SPP1 knockdownHypoxia-induced experiment of RAW264.7 cells and mixed tumor formation with SPP1 knockdown",
     "Organism": "Mus musculus",
